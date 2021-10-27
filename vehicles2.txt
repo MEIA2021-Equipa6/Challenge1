@@ -11,15 +11,14 @@ fact_triggers_rules(weight(_, _), [6, 7]).
 fact_triggers_rules(class(_, light), [1]).
 fact_triggers_rules(class(_, heavy), [2, 3, 4]).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 last_fact(3).
 % last_rule(8).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 rule 1
 	if [type(Vehicle,passengers) and class(Vehicle,light)]
-	then [create_fact(light(Vehicle,carro))].
+	then [create_fact(light(Vehicle,car))].
 
 rule 2
 	if [type(Vehicle,goods) and class(Vehicle,heavy)]
