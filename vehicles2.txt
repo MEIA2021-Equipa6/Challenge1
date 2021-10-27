@@ -1,0 +1,61 @@
+:-dynamic fact/2,last_fact/1.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Metaknowledge
+
+fact_triggers_rules(type(_, passengers), [1, 3, 8]).
+fact_triggers_rules(type(_, goods), [2, 8]).
+fact_triggers_rules(type(_, mixed), [4]).
+fact_triggers_rules(capacity(_, _), [5, 7]).
+fact_triggers_rules(weight(_, _), [6, 7]).
+fact_triggers_rules(class(_, light), [1]).
+fact_triggers_rules(class(_, heavy), [2, 3, 4]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+last_fact(3).
+% last_rule(8).
+
+rule 1
+	if [type(Vehicle,passengers) and class(Vehicle,light)]
+	then [create_fact(light(Vehicle,carro))].
+
+rule 2
+	if [type(Vehicle,goods) and class(Vehicle,heavy)]
+	then [create_fact(heavy(Vehicle,truck))].
+
+rule 3
+	if [type(Vehicle,passengers) and class(Vehicle,heavy)]
+	then [create_fact(heavy(Vehicle,bus))].
+
+rule 4
+	if [type(Vehicle,mixed) and class(Vehicle,heavy)]
+	then [create_fact(heavy(Vehicle,van))].
+
+rule 5
+	if [evaluate(capacity(Vehicle,>,9))]
+	then [create_fact(class(Vehicle,heavy))].
+
+rule 6
+	if [evaluate(weight(Vehicle,>,3500))]
+	then [create_fact(class(Vehicle,heavy))].
+
+rule 7
+	if [evaluate(capacity(Vehicle,=<,9)) and evaluate(weight(Vehicle,=<,3500))]
+	then [create_fact(class(Vehicle,light))].
+
+rule 8
+	if [type(Vehicle,goods) and type(Vehicle,passengers)]
+	then [create_fact(type(Vehicle,mixed))].
+
+
+
+
+fact(1,capacity(my_vehicle,3)).
+fact(2,weight(my_vehicle,4500)).
+fact(3,type(my_vehicle,goods)).
+
+
+
+

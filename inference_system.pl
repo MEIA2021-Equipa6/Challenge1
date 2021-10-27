@@ -1,256 +1,258 @@
-% Vers�o preparada para lidar com regras que contenham nega��o (nao)
-% Metaconhecimento
-% Usar base de conhecimento veIculos2.txt
-% Explica��es como?(how?) e porque n�o?(whynot?)
+% Version prepared to deal with rules that contain negation (not)
+% Metaknowledge
+% how? and whynot? explanations supported
+% Use knowledge base "vehicles2.txt"
 
-:-op(220,xfx,entao).
-:-op(35,xfy,se).
-:-op(240,fx,regra).
-:-op(500,fy,nao).
-:-op(600,xfy,e).
+:-op(220,xfx,then).
+:-op(35,xfy,if).
+:-op(240,fx,rule).
+:-op(500,fy,not).
+:-op(600,xfy,and).
 
-:-dynamic justifica/3.
+:-dynamic justify/3.
 
 
-carrega_bc:-
-		write('NOME DA BASE DE CONHECIMENTO (terminar com .)-> '),
+load_kb:-
+		write('File name for knowledge base (end with dot)-> '),
 		read(NBC),
 		consult(NBC).
 
-arranca_motor:-	facto(N,Facto),
-		facto_dispara_regras1(Facto, LRegras),
-		calcula_ultimo_facto,
-		dispara_regras(N, Facto, LRegras),
-		ultimo_facto(N).
+start_engine:-	fact(N,Fact),
+		fact_triggers_rules1(Fact, LRules),
+		calculate_last_fact,
+		trigger_rules(N, Fact, LRules),
+		last_fact(N).
 
-facto_dispara_regras1(Facto, LRegras):-
-	facto_dispara_regras(Facto, LRegras),
+fact_triggers_rules1(Fact, LRules):-
+	fact_triggers_rules(Fact, LRules),
 	!.
-facto_dispara_regras1(_, []).
-% Caso em que o facto n�o origina o disparo de qualquer regra.
+fact_triggers_rules1(_, []).
+% Case where there are no rules associated with the fact being considered.
 
-dispara_regras(N, Facto, [ID|LRegras]):-
-	regra ID se LHS entao RHS,
-	facto_esta_numa_condicao(Facto,LHS),
+trigger_rules(N, Fact, [ID|LRules]):-
+	rule ID if LHS then RHS,
+	fact_is_in_condition(Fact,LHS),
 	% Instancia Facto em LHS
-	verifica_condicoes(LHS, LFactos),
-	member(N,LFactos),
-	concluir(RHS,ID,LFactos),
+	verify_conditions(LHS, LFacts),
+	member(N,LFacts),
+	conclude(RHS,ID,LFacts),
 	!,
-	dispara_regras(N, Facto, LRegras).
+	trigger_rules(N, Fact, LRules).
 
-dispara_regras(N, Facto, [_|LRegras]):-
-	dispara_regras(N, Facto, LRegras).
+trigger_rules(N, Fact, [_|LRules]):-
+	trigger_rules(N, Fact, LRules).
 
-dispara_regras(_, _, []).
-
-
-facto_esta_numa_condicao(F,[F  e _]).
-
-facto_esta_numa_condicao(F,[avalia(F1)  e _]):- F=..[H,H1|_],F1=..[H,H1|_].
-
-facto_esta_numa_condicao(F,[_ e Fs]):- facto_esta_numa_condicao(F,[Fs]).
-
-facto_esta_numa_condicao(F,[F]).
-
-facto_esta_numa_condicao(F,[avalia(F1)]):-F=..[H,H1|_],F1=..[H,H1|_].
+trigger_rules(_, _, []).
 
 
-verifica_condicoes([nao avalia(X) e Y],[nao X|LF]):- !,
-	\+ avalia(_,X),
-	verifica_condicoes([Y],LF).
-verifica_condicoes([avalia(X) e Y],[N|LF]):- !,
-	avalia(N,X),
-	verifica_condicoes([Y],LF).
+fact_is_in_condition(F,[F  and _]).
 
-verifica_condicoes([nao avalia(X)],[nao X]):- !, \+ avalia(_,X).
-verifica_condicoes([avalia(X)],[N]):- !, avalia(N,X).
+fact_is_in_condition(F,[evaluate(F1) and _]):- F=..[H,H1|_],F1=..[H,H1|_].
 
-verifica_condicoes([nao X e Y],[nao X|LF]):- !,
-	\+ facto(_,X),
-	verifica_condicoes([Y],LF).
-verifica_condicoes([X e Y],[N|LF]):- !,
-	facto(N,X),
-	verifica_condicoes([Y],LF).
+fact_is_in_condition(F,[_ and Fs]):- fact_is_in_condition(F,[Fs]).
 
-verifica_condicoes([nao X],[nao X]):- !, \+ facto(_,X).
-verifica_condicoes([X],[N]):- facto(N,X).
+fact_is_in_condition(F,[F]).
+
+fact_is_in_condition(F,[evaluate(F1)]):-F=..[H,H1|_],F1=..[H,H1|_].
 
 
+verify_conditions([not evaluate(X) and Y],[not X|LF]):- !,
+	\+ evaluate(_,X),
+	verify_conditions([Y],LF).
+verify_conditions([evaluate(X) and Y],[N|LF]):- !,
+	evaluate(N,X),
+	verify_conditions([Y],LF).
 
-concluir([cria_facto(F)|Y],ID,LFactos):-
+verify_conditions([not evaluate(X)],[not X]):- !, \+ evaluate(_,X).
+verify_conditions([evaluate(X)],[N]):- !, evaluate(N,X).
+
+verify_conditions([not X and Y],[not X|LF]):- !,
+	\+ fact(_,X),
+	verify_conditions([Y],LF).
+verify_conditions([X and Y],[N|LF]):- !,
+	fact(N,X),
+	verify_conditions([Y],LF).
+
+verify_conditions([not X],[not X]):- !, \+ fact(_,X).
+verify_conditions([X],[N]):- fact(N,X).
+
+
+
+conclude([create_fact(F)|Y],ID,LFacts):-
 	!,
-	cria_facto(F,ID,LFactos),
-	concluir(Y,ID,LFactos).
+	create_fact(F,ID,LFacts),
+	conclude(Y,ID,LFacts).
 
-concluir([],_,_):-!.
+conclude([],_,_):-!.
 
 
 
-cria_facto(F,_,_):-
-	facto(_,F),!.
+create_fact(F,_,_):-
+	fact(_,F),!.
 
-cria_facto(F,ID,LFactos):-
-	retract(ultimo_facto(N1)),
+create_fact(F,ID,LFacts):-
+	retract(last_fact(N1)),
 	N is N1+1,
-	asserta(ultimo_facto(N)),
-	assertz(justifica(N,ID,LFactos)),
-	assertz(facto(N,F)),
-	write('Foi conclu�do o facto n� '),write(N),write(' -> '),write(F),get0(_),!.
+	asserta(last_fact(N)),
+	assertz(justify(N,ID,LFacts)),
+	assertz(fact(N,F)),
+	write('Fact no.'),write(N),write(' was concluded'),write(' -> '),write(F),get0(_),!.
 
 
 
-avalia(N,P):-	P=..[Functor,Entidade,Operando,Valor],
-		P1=..[Functor,Entidade,Valor1],
-		facto(N,P1),
-		compara(Valor1,Operando,Valor).
+evaluate(N,P):-	P=..[Functor,Entity,Operand,Value],
+		P1=..[Functor,Entity,Value1],
+		fact(N,P1),
+		compare(Value1,Operand,Value).
 
-compara(V1,==,V):- V1==V.
-compara(V1,\==,V):- V1\==V.
-compara(V1,>,V):-V1>V.
-compara(V1,<,V):-V1<V.
-compara(V1,>=,V):-V1>=V.
-compara(V1,=<,V):-V1=<V.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Visualiza��o da base de factos
-
-mostra_factos:-
-	findall(N, facto(N, _), LFactos),
-	escreve_factos(LFactos).
+compare(V1,==,V):- V1==V.
+compare(V1,\==,V):- V1\==V.
+compare(V1,>,V):-V1>V.
+compare(V1,<,V):-V1<V.
+compare(V1,>=,V):-V1>=V.
+compare(V1,=<,V):-V1=<V.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Gera��o de explica��es do tipo "Como"
+% Display knowledge base
 
-como(N):-ultimo_facto(Last),Last<N,!,
-	write('Essa conclus�o n�o foi tirada'),nl,nl.
-como(N):-justifica(N,ID,LFactos),!,
-	facto(N,F),
-	write('Conclui o facto n� '),write(N),write(' -> '),write(F),nl,
-	write('pela regra '),write(ID),nl,
-	write('por se ter verificado que:'),nl,
-	escreve_factos(LFactos),
+show_facts:-
+	findall(N, fact(N, _), LFacts),
+	write_facts(LFacts).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Generate "How" explanations
+
+how(N):-last_fact(Last),Last<N,!,
+	write('That conclusion has not yet been made.'),nl,nl.
+how(N):-justify(N,ID,LFacts),!,
+	fact(N,F),
+	write('Fact no. '),write(N),write(' -> '),write(F),nl,
+	write('can be concluded from the rule '),write(ID),nl,
+	write('after verifying that: '),nl,
+	write_facts(LFacts),
 	write('********************************************************'),nl,
-	explica(LFactos).
-como(N):-facto(N,F),
-	write('O facto n� '),write(N),write(' -> '),write(F),nl,
-	write('foi conhecido inicialmente'),nl,
+	explain(LFacts).
+how(N):-fact(N,F),
+	write('Fact no. '),write(N),write(' -> '),write(F),nl,
+	write('was initially known.'),nl,
 	write('********************************************************'),nl.
 
 
-escreve_factos([I|R]):-facto(I,F), !,
-	write('O facto n� '),write(I),write(' -> '),write(F),write(' � verdadeiro'),nl,
-	escreve_factos(R).
-escreve_factos([I|R]):-
-	write('A condi��o '),write(I),write(' � verdadeira'),nl,
-	escreve_factos(R).
-escreve_factos([]).
+write_facts([I|R]):-fact(I,F), !,
+	write('Fact no. '),write(I),write(' -> '),write(F),write(' is true.'),nl,
+	write_facts(R).
+write_facts([I|R]):-
+	write('Condition '),write(I),write(' is true.'),nl,
+	write_facts(R).
+write_facts([]).
 
-explica([I|R]):- \+ integer(I),!,explica(R).
-explica([I|R]):-como(I),
-		explica(R).
-explica([]):-	write('********************************************************'),nl.
+explain([I|R]):- \+ integer(I),!,explain(R).
+explain([I|R]):-how(I),
+		explain(R).
+explain([]):-	write('********************************************************'),nl.
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Gera��o de explica��es do tipo "Porque nao"
-% Exemplo: ?- whynot(classe(meu_ve�culo,ligeiro)).
+% Generate "Why not" explanations
+% e.g.
+% ?- whynot(class(my_vehicle,light)).
 
-whynot(Facto):-
-	whynot(Facto,1).
+whynot(Fact):-
+	whynot(Fact,1).
 
-whynot(Facto,_):-
-	facto(_, Facto),
+whynot(Fact,_):-
+	fact(_, Fact),
 	!,
-	write('O facto '),write(Facto),write(' n�o � falso!'),nl.
-whynot(Facto,Nivel):-
-	encontra_regras_whynot(Facto,LLPF),
-	whynot1(LLPF,Nivel).
-whynot(nao Facto,Nivel):-
-	formata(Nivel),write('Porque:'),write(' O facto '),write(Facto),
-	write(' � verdadeiro'),nl.
-whynot(Facto,Nivel):-
-	formata(Nivel),write('Porque:'),write(' O facto '),write(Facto),
-	write(' n�o est� definido na base de conhecimento'),nl.
+	write('Fact '),write(Fact),write(' is not false!'),nl.
+whynot(Fact,Level):-
+	find_rules_whynot(Fact,LLPF),
+	whynot1(LLPF,Level).
+whynot(not Fact,Level):-
+	format(Level),write('because:'),write(' Fact '),write(Fact),
+	write(' is true.'),nl.
+whynot(Fact,Level):-
+	format(Level),write('Because:'),write(' Fact '),write(Fact),
+	write(' is not defined in the knowledge base.'),nl.
 
-%  As explica��es do whynot(Facto) devem considerar todas as regras que poderiam dar origem a conclus�o relativa ao facto Facto
+%  Explanations given by whynot/1 should consider all the rules that could a conclusion related to the fact it receives as an argument
 
-encontra_regras_whynot(Facto,LLPF):-
+find_rules_whynot(Fact,LLPF):-
 	findall((ID,LPF),
 		(
-		regra ID se LHS entao RHS,
-		member(cria_facto(Facto),RHS),
-		encontra_premissas_falsas(LHS,LPF),
+		rule ID if LHS then RHS,
+		member(create_fact(Fact),RHS),
+		find_fake_premisses(LHS,LPF),
 		LPF \== []
 		),
 		LLPF).
 
 whynot1([],_).
-whynot1([(ID,LPF)|LLPF],Nivel):-
-	formata(Nivel),write('Porque pela regra '),write(ID),write(':'),nl,
-	Nivel1 is Nivel+1,
-	explica_porque_nao(LPF,Nivel1),
-	whynot1(LLPF,Nivel).
+whynot1([(ID,LPF)|LLPF],Level):-
+	format(Level),write('Because of rule '),write(ID),write(':'),nl,
+	Level1 is Level+1,
+	explain_why_not(LPF,Level1),
+	whynot1(LLPF,Level).
 
-encontra_premissas_falsas([nao X e Y], LPF):-
-	verifica_condicoes([nao X], _),
+find_fake_premisses([not X and Y], LPF):-
+	verify_conditions([not X], _),
 	!,
-	encontra_premissas_falsas([Y], LPF).
-encontra_premissas_falsas([X e Y], LPF):-
-	verifica_condicoes([X], _),
+	find_fake_premisses([Y], LPF).
+find_fake_premisses([X and Y], LPF):-
+	verify_conditions([X], _),
 	!,
-	encontra_premissas_falsas([Y], LPF).
-encontra_premissas_falsas([nao X], []):-
-	verifica_condicoes([nao X], _),
+	find_fake_premisses([Y], LPF).
+find_fake_premisses([not X], []):-
+	verify_conditions([not X], _),
 	!.
-encontra_premissas_falsas([X], []):-
-	verifica_condicoes([X], _),
+find_fake_premisses([X], []):-
+	verify_conditions([X], _),
 	!.
-encontra_premissas_falsas([nao X e Y], [nao X|LPF]):-
+find_fake_premisses([not X and Y], [not X|LPF]):-
 	!,
-	encontra_premissas_falsas([Y], LPF).
-encontra_premissas_falsas([X e Y], [X|LPF]):-
+	find_fake_premisses([Y], LPF).
+find_fake_premisses([X and Y], [X|LPF]):-
 	!,
-	encontra_premissas_falsas([Y], LPF).
-encontra_premissas_falsas([nao X], [nao X]):-!.
-encontra_premissas_falsas([X], [X]).
-encontra_premissas_falsas([]).
+	find_fake_premisses([Y], LPF).
+find_fake_premisses([not X], [not X]):-!.
+find_fake_premisses([X], [X]).
+find_fake_premisses([]).
 
-explica_porque_nao([],_).
-explica_porque_nao([nao avalia(X)|LPF],Nivel):-
+explain_why_not([],_).
+explain_why_not([not evaluate(X)|LPF],Level):-
 	!,
-	formata(Nivel),write('A condi��o nao '),write(X),write(' � falsa'),nl,
-	explica_porque_nao(LPF,Nivel).
-explica_porque_nao([avalia(X)|LPF],Nivel):-
+	format(Level),write('The condition not '),write(X),write(' is false.'),nl,
+	explain_why_not(LPF,Level).
+explain_why_not([evaluate(X)|LPF],Level):-
 	!,
-	formata(Nivel),write('A condi��o '),write(X),write(' � falsa'),nl,
-	explica_porque_nao(LPF,Nivel).
-explica_porque_nao([P|LPF],Nivel):-
-	formata(Nivel),write('A premissa '),write(P),write(' � falsa'),nl,
-	Nivel1 is Nivel+1,
-	whynot(P,Nivel1),
-	explica_porque_nao(LPF,Nivel).
+	format(Level),write('The condition '),write(X),write(' is false.'),nl,
+	explain_why_not(LPF,Level).
+explain_why_not([P|LPF],Level):-
+	format(Level),write('The premisse '),write(P),write(' is false.'),nl,
+	Level1 is Level+1,
+	whynot(P,Level1),
+	explain_why_not(LPF,Level).
 
-formata(Nivel):-
-	Esp is (Nivel-1)*5, tab(Esp).
+format(Level):-
+	Esp is (Level-1)*5, tab(Esp).
 
-% ---- Metaconhecimento
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Metaknowledge
 
-calcula_ultimo_facto:-
-	findall(ID, ( facto(ID, _) ) , LID),
-	retractall(ultimo_facto(_)),
+calculate_last_fact:-
+	findall(ID, ( fact(ID, _) ) , LID),
+	retractall(last_fact(_)),
 	last(Last, LID),
-	assertz(ultimo_facto(Last)).
+	assertz(last_fact(Last)).
 
 calcula_ultima_regra:-
-	findall(ID, ( regra ID se _ entao _ ) , LID),
-	retractall(ultima_regra(_)),
+	findall(ID, ( rule ID if _ then _ ) , LID),
+	retractall(last_rule(_)),
 	last(Last, LID),
-	assertz(ultima_regra(Last)).
+	assertz(last_rule(Last)).
 
 last(X,[X]).
 last(X,[_|Z]) :- last(X,Z).
