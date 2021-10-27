@@ -13,7 +13,7 @@
 
 
 load_kb:-
-		write('File name for knowledge base (end with dot)-> '),
+		write('File name for knowledge base (end with dot) -> '),
 		read(NBC),
 		consult(NBC).
 
@@ -103,14 +103,14 @@ create_fact(F,ID,LFacts):-
 evaluate(N,P):-	P=..[Functor,Entity,Operand,Value],
 		P1=..[Functor,Entity,Value1],
 		fact(N,P1),
-		compare(Value1,Operand,Value).
+		compare2(Value1,Operand,Value).
 
-compare(V1,==,V):- V1==V.
-compare(V1,\==,V):- V1\==V.
-compare(V1,>,V):-V1>V.
-compare(V1,<,V):-V1<V.
-compare(V1,>=,V):-V1>=V.
-compare(V1,=<,V):-V1=<V.
+compare2(V1,==,V):- V1==V.
+compare2(V1,\==,V):- V1\==V.
+compare2(V1,>,V):-V1>V.
+compare2(V1,<,V):-V1<V.
+compare2(V1,>=,V):-V1>=V.
+compare2(V1,=<,V):-V1=<V.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
