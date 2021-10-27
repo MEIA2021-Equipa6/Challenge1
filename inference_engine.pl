@@ -9,8 +9,7 @@
 :-op(500,fy,not).
 :-op(600,xfy,and).
 
-:-dynamic justify/3.
-
+:-dynamic justify/3,fact_triggers_rules/2.
 
 load_kb:-
 		write('File name for knowledge base (end with dot) -> '),
@@ -18,8 +17,10 @@ load_kb:-
 		consult(NBC).
 
 start_engine:-	fact(N,Fact),
-		fact_triggers_rules1(Fact, LRules),
 		calculate_last_fact,
+		calculate_last_rule,
+		generate_metaknowledge([type(_, passengers),type(_, goods), type(_, mixed),capacity(_, _), weight(_, _), class(_, light),class(_, heavy)]), 
+		fact_triggers_rules1(Fact, LRules),
 		trigger_rules(N, Fact, LRules),
 		last_fact(N).
 
@@ -256,3 +257,12 @@ calculate_last_rule:-
 
 last(X,[X]).
 last(X,[_|Z]) :- last(X,Z).
+
+generate_metaknowledge([]).
+
+generate_metaknowledge([F|LF]):-generate_metaknowledge1(F),
+	generate_metaknowledge(LF).
+
+generate_metaknowledge1(F):-
+	findall(ID,(rule ID if LHS then _ , fact_is_in_condition(F,LHS)),LID),
+	((LID==[ ],!) ; assertz(fact_triggers_rules(F,LID))).
