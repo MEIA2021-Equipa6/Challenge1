@@ -248,7 +248,7 @@ calculate_last_fact:-
 	last(Last, LID),
 	assertz(last_fact(Last)).
 
-calcula_ultima_regra:-
+calculate_last_rule:-
 	findall(ID, ( rule ID if _ then _ ) , LID),
 	retractall(last_rule(_)),
 	last(Last, LID),
