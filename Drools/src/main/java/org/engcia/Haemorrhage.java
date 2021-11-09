@@ -20,14 +20,14 @@ public class Haemorrhage {
 
 
     public static void main(String[] args) {
-        Sensor sensor1 = new Sensor("AOCS_Thermal_001", 50);
-        Sensor sensor2 = new Sensor("AOCS_Voltage_001", 5);
-        Sensor sensor3 = new Sensor("AOCS_Thermal_002", 50);
-        Sensor sensor4 = new Sensor("AOCS_Voltage_002", 5);
-        Sensor sensor5 = new Sensor("Power_Thermal_001", 80);
-        Sensor sensor6 = new Sensor("Power_Voltage_001", 12);
-        Sensor sensor7 = new Sensor("Power_Thermal_002", 10);
-        Sensor sensor8 = new Sensor("Power_Voltage_002", 12);
+        Sensor sensor1 = new Sensor("AOCS", "Thermal", 1, 50);
+        Sensor sensor2 = new Sensor("AOCS", "Voltage", 1, 5);
+        Sensor sensor3 = new Sensor("AOCS", "Thermal", 2, 50);
+        Sensor sensor4 = new Sensor("AOCS", "Voltage", 2, 5);
+        Sensor sensor5 = new Sensor("Power" , "Thermal", 1, 80);
+        Sensor sensor6 = new Sensor("Power", "Voltage", 1, 12);
+        Sensor sensor7 = new Sensor("Power", "Thermal", 2, 10);
+        Sensor sensor8 = new Sensor("Power", "Voltage",2, 12);
         Sensors.add(sensor1);
         Sensors.add(sensor2);
         Sensors.add(sensor3);

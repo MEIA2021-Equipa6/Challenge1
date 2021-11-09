@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.drools.core.time.SessionPseudoClock;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
@@ -42,6 +43,9 @@ public class RuleTest {
     static final Logger LOG = LoggerFactory.getLogger(RuleTest.class);
 
     @Test
+    //This test its from base project.
+    //TODO: update tests and remove @Ignore
+    @Ignore
     public void test() {
         KieServices kieServices = KieServices.Factory.get();
 

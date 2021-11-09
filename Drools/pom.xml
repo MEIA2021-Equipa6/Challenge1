@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.engcia</groupId>
-  <artifactId>Haemorrhage</artifactId>
+  <artifactId>MEIA2021-TEAM6</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>kjar</packaging>
 
-  <name>Haemorrhage</name>
+  <name>Challenge-1</name>
   <url>http://drools.org</url>
 
   <properties>

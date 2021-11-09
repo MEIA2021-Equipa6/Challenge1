@@ -27,12 +27,21 @@ query "Conclusions"
 	$conclusion : Conclusion()
 end
 
-rule "Rule Thermal Missmatch Sensors missmatch"
+rule "Power thermal sub-system mismatch"
 	when
-	    $sensor: Sensor(name matches ".*_Thermal_.*", value < 45)
+	    $sensor: Sensor(subSystem matches "Power", type matches "Thermal", value < 45)
 	then
-		Conclusion c = new Conclusion(Conclusion.SensorBadValue, $sensor.getName());
+		Conclusion c = new Conclusion(Conclusion.SensorBadValue, $sensor.getSubSystem());
 		insert(c);
 end
+
+rule ""
+    when
+        $sensor: Sensor(subSystem matches "Power", type matches "Thermal", value < 45)
+    then
+        	Conclusion c = new Conclusion(Conclusion.SensorBadValue, $sensor.getSubSystem());
+        	insert(c);
+end
+
 
 

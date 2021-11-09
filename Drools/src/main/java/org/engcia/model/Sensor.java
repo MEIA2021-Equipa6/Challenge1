@@ -2,11 +2,20 @@ package org.engcia.model;
 
 public class Sensor {
 
-    private java.lang.String name;
+    private String subSystem;
+    private String type;
+    private int number;
     private int value;
 
-    public Sensor(String name, int value) {
-        this.name = name;
+    public Sensor(String name,int value) {
+        this.subSystem = name;
+        this.value = value;
+    }
+
+    public Sensor(String subSystem, String type, int number, int value) {
+        this.subSystem = subSystem;
+        this.type = type;
+        this.number = number;
         this.value = value;
     }
 
@@ -14,12 +23,28 @@ public class Sensor {
 
     }
 
-    public String getName() {
-        return name;
+    public String getSubSystem() {
+        return subSystem;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSubSystem(String subSystem) {
+        this.subSystem = subSystem;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public int getValue() {

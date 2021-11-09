@@ -1,135 +1,135 @@
 package org.engcia.model;
 
 public class Evidences {
-    private java.lang.String bloodEar;
-    private java.lang.String earAche;
-    private java.lang.String deafness;
-    private java.lang.String cerebrospinal;
-    private java.lang.String bloodNose;
-    private java.lang.String vomiting;
-    private java.lang.String bloodBrown;
-    private java.lang.String bloodMouth;
-    private java.lang.String bloodPenis;
-    private java.lang.String bloodAnus;
-    private java.lang.String bloodCoffee;
-    private java.lang.String headAche;
-    private java.lang.String bloodVagina;
+    private String bloodEar;
+    private String earAche;
+    private String deafness;
+    private String cerebrospinal;
+    private String bloodNose;
+    private String vomiting;
+    private String bloodBrown;
+    private String bloodMouth;
+    private String bloodPenis;
+    private String bloodAnus;
+    private String bloodCoffee;
+    private String headAche;
+    private String bloodVagina;
 
     public Evidences() {
     }
 
-    public java.lang.String getBloodEar() {
+    public String getBloodEar() {
         return this.bloodEar;
     }
 
-    public void setBloodEar(java.lang.String bloodEar) {
+    public void setBloodEar(String bloodEar) {
         this.bloodEar = bloodEar;
     }
 
-    public java.lang.String getEarAche() {
+    public String getEarAche() {
         return this.earAche;
     }
 
-    public void setEarAche(java.lang.String earAche) {
+    public void setEarAche(String earAche) {
         this.earAche = earAche;
     }
 
-    public java.lang.String getDeafness() {
+    public String getDeafness() {
         return this.deafness;
     }
 
-    public void setDeafness(java.lang.String deafness) {
+    public void setDeafness(String deafness) {
         this.deafness = deafness;
     }
 
-    public java.lang.String getCerebrospinal()
+    public String getCerebrospinal()
     {
         return this.cerebrospinal;
     }
 
-    public void setCerebrospinal(java.lang.String cerebrospinal) {
+    public void setCerebrospinal(String cerebrospinal) {
         this.cerebrospinal = cerebrospinal;
     }
 
-    public java.lang.String getBloodNose() {
+    public String getBloodNose() {
         return this.bloodNose;
     }
 
-    public void setBloodNose(java.lang.String bloodNose) {
+    public void setBloodNose(String bloodNose) {
         this.bloodNose = bloodNose;
     }
 
-    public java.lang.String getVomiting() {
+    public String getVomiting() {
         return this.vomiting;
     }
 
-    public void setVomiting(java.lang.String vomiting) {
+    public void setVomiting(String vomiting) {
         this.vomiting = vomiting;
     }
 
-    public java.lang.String getBloodBrown() {
+    public String getBloodBrown() {
         return this.bloodBrown;
     }
 
-    public void setBloodBrown(java.lang.String bloodBrown) {
+    public void setBloodBrown(String bloodBrown) {
         this.bloodBrown = bloodBrown;
     }
 
-    public java.lang.String getBloodMouth()	{
+    public String getBloodMouth()	{
         return this.bloodMouth;
     }
 
-    public void setBloodMouth(java.lang.String bloodMouth) {
+    public void setBloodMouth(String bloodMouth) {
         this.bloodMouth = bloodMouth;
     }
 
-    public java.lang.String getBloodPenis() {
+    public String getBloodPenis() {
         return this.bloodPenis;
     }
 
-    public void setBloodPenis(java.lang.String bloodPenis) {
+    public void setBloodPenis(String bloodPenis) {
         this.bloodPenis = bloodPenis;
     }
 
-    public java.lang.String getBloodAnus() {
+    public String getBloodAnus() {
         return this.bloodAnus;
     }
 
-    public void setBloodAnus(java.lang.String bloodAnus) {
+    public void setBloodAnus(String bloodAnus) {
         this.bloodAnus = bloodAnus;
     }
 
-    public java.lang.String getBloodCoffee() {
+    public String getBloodCoffee() {
         return this.bloodCoffee;
     }
 
-    public void setBloodCoffee(java.lang.String bloodCoffee) {
+    public void setBloodCoffee(String bloodCoffee) {
         this.bloodCoffee = bloodCoffee;
     }
 
-    public java.lang.String getHeadAche() {
+    public String getHeadAche() {
         return this.headAche;
     }
 
-    public void setHeadAche(java.lang.String headAche) {
+    public void setHeadAche(String headAche) {
         this.headAche = headAche;
     }
 
-    public java.lang.String getBloodVagina() {
+    public String getBloodVagina() {
         return this.bloodVagina;
     }
 
-    public void setBloodVagina(java.lang.String bloodVagina) {
+    public void setBloodVagina(String bloodVagina) {
         this.bloodVagina = bloodVagina;
     }
 
-    public Evidences(java.lang.String bloodEar, java.lang.String earAche,
-                     java.lang.String deafness, java.lang.String cerebrospinal,
-                     java.lang.String bloodNose, java.lang.String vomiting,
-                     java.lang.String bloodBrown, java.lang.String bloodMouth,
-                     java.lang.String bloodPenis, java.lang.String bloodAnus,
-                     java.lang.String bloodCoffee, java.lang.String headAche,
-                     java.lang.String bloodVagina) {
+    public Evidences(String bloodEar, String earAche,
+                     String deafness, String cerebrospinal,
+                     String bloodNose, String vomiting,
+                     String bloodBrown, String bloodMouth,
+                     String bloodPenis, String bloodAnus,
+                     String bloodCoffee, String headAche,
+                     String bloodVagina) {
         this.bloodEar = bloodEar;
         this.earAche = earAche;
         this.deafness = deafness;
