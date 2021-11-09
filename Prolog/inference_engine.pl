@@ -127,16 +127,16 @@ show_facts:-
 % Generate "How" explanations
 
 how(N):-last_fact(Last),Last<N,!,
-	write('That conclusion has not yet been made.'),nl,nl.
+	write('That fact does not exist.'),nl,nl.
 how(N):-justify(N,ID,LFacts),!,
 	fact(N,F),
-	write('Fact no. '),write(N),writeq(F), 
-	write(' can be concluded from the rule '),write(ID),
-	write(' after verifying that: '),
+	write('Fact no.'),write(N),write(' \"'),writeq(F),write('\"'), 
+	write(' can be concluded from rule '),write(ID),
+	write(' after verifying that: '),nl,tab(8),
 	write_facts(LFacts), nl,
 	explain(LFacts).
 how(N):-fact(N,F),
-	write('Fact no. '),write(N),writeq(F),
+	write('Fact no.'),write(N),write(' \"'),writeq(F),write('\"'),
 	write(' was initially known.'),nl.
 
 
@@ -151,7 +151,7 @@ write_facts([]).
 explain([I|R]):- \+ integer(I),!,explain(R).
 explain([I|R]):-how(I),
 	explain(R).
-explain([]):-	write('********************************************************'),nl.
+explain([]):-nl.
 
 
 
