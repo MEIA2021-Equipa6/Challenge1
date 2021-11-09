@@ -12,17 +12,18 @@
 :-dynamic justify/3,fact_triggers_rules/2.
 
 load_kb:-
-		write('File name for knowledge base (end with dot) -> '),
-		read(NBC),
-		consult(NBC).
+	write('File name for knowledge base (end with dot) -> '),
+	read(NBC),
+	consult(NBC).
 
-start_engine:-	fact(N,Fact),
-		calculate_last_fact,
-		calculate_last_rule,
-		generate_metaknowledge([type(_, passengers),type(_, goods), type(_, mixed),capacity(_, _), weight(_, _), class(_, light),class(_, heavy)]), 
-		fact_triggers_rules1(Fact, LRules),
-		trigger_rules(N, Fact, LRules),
-		last_fact(N).
+start_engine:-
+	calculate_last_fact,
+	calculate_last_rule,
+	generate_metaknowledge([type(_, passengers),type(_, goods), type(_, mixed),capacity(_, _), weight(_, _), class(_, light),class(_, heavy)]), 
+	fact(N,Fact),
+	fact_triggers_rules1(Fact, LRules),
+	trigger_rules(N, Fact, LRules),
+	last_fact(N).
 
 fact_triggers_rules1(Fact, LRules):-
 	fact_triggers_rules(Fact, LRules),
@@ -102,9 +103,9 @@ create_fact(F,ID,LFacts):-
 
 
 evaluate(N,P):-	P=..[Functor,Entity,Operand,Value],
-		P1=..[Functor,Entity,Value1],
-		fact(N,P1),
-		compare2(Value1,Operand,Value).
+	P1=..[Functor,Entity,Value1],
+	fact(N,P1),
+	compare2(Value1,Operand,Value).
 
 compare2(V1,==,V):- V1==V.
 compare2(V1,\==,V):- V1\==V.
@@ -129,16 +130,14 @@ how(N):-last_fact(Last),Last<N,!,
 	write('That conclusion has not yet been made.'),nl,nl.
 how(N):-justify(N,ID,LFacts),!,
 	fact(N,F),
-	write('Fact no. '),write(N),write(' -> '),write(F),nl,
-	write('can be concluded from the rule '),write(ID),nl,
-	write('after verifying that: '),nl,
-	write_facts(LFacts),
-	write('********************************************************'),nl,
+	write('Fact no. '),write(N),writeq(F), 
+	write(' can be concluded from the rule '),write(ID),
+	write(' after verifying that: '),
+	write_facts(LFacts), nl,
 	explain(LFacts).
 how(N):-fact(N,F),
-	write('Fact no. '),write(N),write(' -> '),write(F),nl,
-	write('was initially known.'),nl,
-	write('********************************************************'),nl.
+	write('Fact no. '),write(N),writeq(F),
+	write(' was initially known.'),nl.
 
 
 write_facts([I|R]):-fact(I,F), !,
@@ -151,7 +150,7 @@ write_facts([]).
 
 explain([I|R]):- \+ integer(I),!,explain(R).
 explain([I|R]):-how(I),
-		explain(R).
+	explain(R).
 explain([]):-	write('********************************************************'),nl.
 
 
@@ -183,13 +182,13 @@ whynot(Fact,Level):-
 
 find_rules_whynot(Fact,LLPF):-
 	findall((ID,LPF),
-		(
+	(
 		rule ID if LHS then RHS,
 		member(create_fact(Fact),RHS),
 		find_fake_premisses(LHS,LPF),
 		LPF \== []
-		),
-		LLPF).
+	),
+	LLPF).
 
 whynot1([],_).
 whynot1([(ID,LPF)|LLPF],Level):-
@@ -240,6 +239,8 @@ explain_why_not([P|LPF],Level):-
 format(Level):-
 	Esp is (Level-1)*5, tab(Esp).
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Metaknowledge
 
@@ -255,7 +256,7 @@ calculate_last_rule:-
 	last(Last, LID),
 	assertz(last_rule(Last)).
 
-last(X,[X]).
+last(X,[X]):-!.
 last(X,[_|Z]) :- last(X,Z).
 
 generate_metaknowledge([]).
