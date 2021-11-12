@@ -27,6 +27,7 @@ public class Haemorrhage {
         Sensor sensor5 = new Sensor("Power" , "Thermal", 1, 80);
         Sensor sensor6 = new Sensor("Power", "Voltage", 1, 12);
         Sensor sensor7 = new Sensor("Power", "Thermal", 2, 10);
+        Sensor sensor10 = new Sensor("Power", "Thermal", 1, 1);
         Sensor sensor8 = new Sensor("Power", "Voltage",2, 12);
         Sensors.add(sensor1);
         Sensors.add(sensor2);
@@ -36,7 +37,7 @@ public class Haemorrhage {
         Sensors.add(sensor6);
         Sensors.add(sensor7);
         Sensors.add(sensor8);
-
+        Sensors.add(sensor10);
         runEngine(Sensors);
     }
 
@@ -61,7 +62,7 @@ public class Haemorrhage {
                     LOG.info(">>>" + conclusion.toString());
 
                     // stop inference engine after as soon as got a conclusion
-                    kSession.halt();
+                   // kSession.halt();
 
                 }
 
