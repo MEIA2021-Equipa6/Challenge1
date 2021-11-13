@@ -1,0 +1,20 @@
+cd 'Prolog'; & 'C:\\Program Files\\swipl\\bin\\swipl.exe'
+
+['inference_engine.pl'].
+load_kb.
+'satellite_sensor_data.txt'.
+spy(fact_triggers_rules1).
+start_engine.
+
+
+['inference_engine.pl'].
+load_kb.
+'satellite_sensor_data.txt'.
+spy(generate_metaknowledge).
+start_engine.
+
+
+['inference_engine.pl'].
+load_kb.
+'satellite_sensor_data.txt'.
+start_engine.

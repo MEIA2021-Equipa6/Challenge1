@@ -1,0 +1,9 @@
+:-dynamic fact/2,last_fact/1.
+
+rule 1
+	if [evaluate(aocs(thermal1(Temp,<,-10))) or evaluate(aocs(thermal1(Temp,>,50)))]
+	then [create_fact(partial_failure(aocs(thermal1)))].
+
+
+
+fact(1,aocs(thermal1(67))).
