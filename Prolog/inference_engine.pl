@@ -7,6 +7,7 @@
 :-op(35,xfy,if).
 :-op(240,fx,rule).
 :-op(500,fy,not).
+:-op(700,xfy,or).
 :-op(600,xfy,and).
 
 :-dynamic justify/3,fact_triggers_rules/2.
@@ -19,7 +20,7 @@ load_kb:-
 start_engine:-
 	calculate_last_fact,
 	calculate_last_rule,
-	generate_metaknowledge([type(_, passengers),type(_, goods), type(_, mixed),capacity(_, _), weight(_, _), class(_, light),class(_, heavy)]), 
+	generate_metaknowledge([aocs(thermal1(_))]), 
 	fact(N,Fact),
 	fact_triggers_rules1(Fact, LRules),
 	trigger_rules(N, Fact, LRules),
@@ -34,9 +35,11 @@ fact_triggers_rules1(_, []).
 trigger_rules(N, Fact, [ID|LRules]):-
 	rule ID if LHS then RHS,
 	fact_is_in_condition(Fact,LHS),
-	% Instancia Facto em LHS
+	% verify_conditions will check for all the facts that are true for LHS.
 	verify_conditions(LHS, LFacts),
+	% we will then check if the fact being considered is in that list 
 	member(N,LFacts),
+	% for explanation module purposes, the whole list of facts is then written to a justify/3 fact
 	conclude(RHS,ID,LFacts),
 	!,
 	trigger_rules(N, Fact, LRules).
@@ -48,16 +51,18 @@ trigger_rules(_, _, []).
 
 
 fact_is_in_condition(F,[F  and _]).
-
 fact_is_in_condition(F,[evaluate(F1) and _]):- F=..[H,H1|_],F1=..[H,H1|_].
-
 fact_is_in_condition(F,[_ and Fs]):- fact_is_in_condition(F,[Fs]).
+
+fact_is_in_condition(F,[F  or _]).
+fact_is_in_condition(F,[evaluate(F1) or _]):- F=..[H,H1|_],F1=..[H,H1|_].
+fact_is_in_condition(F,[_ or Fs]):- fact_is_in_condition(F,[Fs]).
 
 fact_is_in_condition(F,[F]).
 
 fact_is_in_condition(F,[evaluate(F1)]):-F=..[H,H1|_],F1=..[H,H1|_].
 
-
+% and - part1
 verify_conditions([not evaluate(X) and Y],[not X|LF]):- !,
 	\+ evaluate(_,X),
 	verify_conditions([Y],LF).
@@ -65,14 +70,31 @@ verify_conditions([evaluate(X) and Y],[N|LF]):- !,
 	evaluate(N,X),
 	verify_conditions([Y],LF).
 
+% or - part1
+verify_conditions([not evaluate(X) or Y],[not X|LF]):- !,
+	\+ evaluate(_,X);
+	verify_conditions([Y],LF).
+verify_conditions([evaluate(X) or Y],[N|LF]):- !,
+	evaluate(N,X);
+	verify_conditions([Y],LF).
+
 verify_conditions([not evaluate(X)],[not X]):- !, \+ evaluate(_,X).
 verify_conditions([evaluate(X)],[N]):- !, evaluate(N,X).
 
+% and - part2
 verify_conditions([not X and Y],[not X|LF]):- !,
 	\+ fact(_,X),
 	verify_conditions([Y],LF).
 verify_conditions([X and Y],[N|LF]):- !,
 	fact(N,X),
+	verify_conditions([Y],LF).
+
+% or -part2
+verify_conditions([not X or Y],[not X|LF]):- !,
+	\+ fact(_,X);
+	verify_conditions([Y],LF).
+verify_conditions([X or Y],[N|LF]):- !,
+	fact(N,X);
 	verify_conditions([Y],LF).
 
 verify_conditions([not X],[not X]):- !, \+ fact(_,X).
