@@ -7,9 +7,10 @@ This repo includes both the code for the ENGCIA project in Drools and the PPROGI
 * Spawn Windows Powershell from this folder and run ```& 'C:\\Program Files\\swipl\\bin\\swipl.exe'```
 * ['inference_engine.pl'].
 * load_kb.
-* 'vehicles2.txt'.
+* 'satellite_sensor_data.txt'.
 * start_engine.
 
 ## Usage of DROOLS project
+TBD
 
 Follow our weekly updates on our blog: https://autonomousdrifting.wixsite.com/equipa
