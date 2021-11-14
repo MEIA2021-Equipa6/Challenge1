@@ -194,7 +194,7 @@ whynot(Fact,Level):-
 	find_rules_whynot(Fact,LLPF),
 	whynot1(LLPF,Level).
 whynot(not Fact,Level):-
-	format(Level),write('because:'),write(' Fact '),write(Fact),
+	format(Level),write('Because:'),write(' Fact '),write(Fact),
 	write(' is true.'),nl.
 whynot(Fact,Level):-
 	format(Level),write('Because:'),write(' Fact '),write(Fact),
