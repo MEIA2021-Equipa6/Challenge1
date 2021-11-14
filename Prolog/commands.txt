@@ -17,4 +17,15 @@ start_engine.
 ['inference_engine.pl'].
 load_kb.
 'satellite_sensor_data.txt'.
+spy(conclude).
 start_engine.
+
+
+
+
+['inference_engine.pl'].
+load_kb.
+'satellite_sensor_data.txt'.
+start_engine.
+
+
