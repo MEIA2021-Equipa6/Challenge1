@@ -20,7 +20,7 @@ load_kb:-
 start_engine:-
 	calculate_last_fact,
 	calculate_last_rule,
-	generate_metaknowledge([aocs(thermal1(_))]), 
+	generate_metaknowledge([aocs_thermal(_,_)]),
 	fact(N,Fact),
 	fact_triggers_rules1(Fact, LRules),
 	trigger_rules(N, Fact, LRules),
@@ -55,10 +55,10 @@ fact_is_in_condition(F,[evaluate(F1) and _]):- F=..[H,H1|_],F1=..[H,H1|_].
 fact_is_in_condition(F,[_ and Fs]):- fact_is_in_condition(F,[Fs]).
 
 fact_is_in_condition(F,[F  or _]).
-fact_is_in_condition(F,[evaluate(F1) or _]):- F=..[H,H1|_],F1=..[H,H1|_].
+fact_is_in_condition(F,[evaluate(F1) or _]):- F=..[H,H1|_], F1=..[H,H1|_], !.
 fact_is_in_condition(F,[_ or Fs]):- fact_is_in_condition(F,[Fs]).
 
-fact_is_in_condition(F,[F]).
+fact_is_in_condition(F,[F]):-!.
 
 fact_is_in_condition(F,[evaluate(F1)]):-F=..[H,H1|_],F1=..[H,H1|_].
 
@@ -71,12 +71,12 @@ verify_conditions([evaluate(X) and Y],[N|LF]):- !,
 	verify_conditions([Y],LF).
 
 % or - part1
-verify_conditions([not evaluate(X) or Y],[not X|LF]):- !,
+verify_conditions([not evaluate(X) or Y],[not X|LF]):-
 	\+ evaluate(_,X);
-	verify_conditions([Y],LF).
-verify_conditions([evaluate(X) or Y],[N|LF]):- !,
+	verify_conditions([Y],[not X|LF]).
+verify_conditions([evaluate(X) or Y],[N|LF]):-
 	evaluate(N,X);
-	verify_conditions([Y],LF).
+	verify_conditions([Y],[N|LF]).
 
 verify_conditions([not evaluate(X)],[not X]):- !, \+ evaluate(_,X).
 verify_conditions([evaluate(X)],[N]):- !, evaluate(N,X).
@@ -90,12 +90,12 @@ verify_conditions([X and Y],[N|LF]):- !,
 	verify_conditions([Y],LF).
 
 % or -part2
-verify_conditions([not X or Y],[not X|LF]):- !,
+verify_conditions([not X or Y],[not X|LF]):-
 	\+ fact(_,X);
-	verify_conditions([Y],LF).
-verify_conditions([X or Y],[N|LF]):- !,
+	verify_conditions([Y],[not X|LF]).
+verify_conditions([X or Y],[N|LF]):-
 	fact(N,X);
-	verify_conditions([Y],LF).
+	verify_conditions([Y],[N|LF]).
 
 verify_conditions([not X],[not X]):- !, \+ fact(_,X).
 verify_conditions([X],[N]):- fact(N,X).
