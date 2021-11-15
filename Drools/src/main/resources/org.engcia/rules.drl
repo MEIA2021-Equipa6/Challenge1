@@ -28,518 +28,354 @@ query "Conclusions"
 	$conclusion : Conclusion()
 end
 
-//TODO: Missing real values
-
 // AOCS Module
-rule "AOCS thermal sub-system partial failure"
+rule "AOCS thermal sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Thermal", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.AOCSThermalSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.AOCSThermalSubSystemFailure, $sensor.getSubSystem());s
 		insert(c);
 end
 
-rule "AOCS thermal sub-system full failure"
+rule "AOCS thermal sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Thermal", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.AOCSThermalSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.AOCSThermalSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "AOCS power sub-system partial failure"
+
+rule "AOCS voltage sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Power", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.AOCSPowerSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.AOCSVoltageSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "AOCS power sub-system full failure"
+rule "AOCS voltage sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Power", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.AOCSPowerSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.AOCSVoltageSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "AOCS voltage sub-system partial failure"
+rule "AOCS current sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Voltage", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.AOCSVoltageSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.AOCSCurrentSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "AOCS voltage sub-system full failure"
+rule "AOCS current sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Voltage", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.AOCSVoltageSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
-		insert(c);
-end
-
-rule "AOCS current sub-system partial failure"
-	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", value < 45))
-	then
-		Conclusion c = new Conclusion(Conclusion.AOCSCurrentSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
-		insert(c);
-end
-
-rule "AOCS current sub-system full failure"
-	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", value < 45))
-	then
-		Conclusion c = new Conclusion(Conclusion.AOCSCurrentSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.AOCSCurrentSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
 // Payload Module
-rule "PayPayload thermal sub-system partial failure"
+rule "Payload thermal sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Thermal", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PayloadThermalSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PayloadThermalSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Payload thermal sub-system full failure"
+rule "PayPayload thermal sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Thermal", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PayloadThermalSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PayloadThermalSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Payload power sub-system partial failure"
+rule "Payload voltage sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Power", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PayloadPowerSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PayloadVoltageSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Payload power sub-system full failure"
+rule "Payload voltage sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Power", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PayloadPowerSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PayloadVoltageSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Payload voltage sub-system partial failure"
+rule "Payload current sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Voltage", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PayloadVoltageSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PayloadCurrentSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Payload voltage sub-system full failure"
+rule "Payload current sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Voltage", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PayloadVoltageSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
-		insert(c);
-end
-
-rule "Payload current sub-system partial failure"
-	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", value < 45))
-	then
-		Conclusion c = new Conclusion(Conclusion.PayloadCurrentSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
-		insert(c);
-end
-
-rule "Payload current sub-system full failure"
-	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", value < 45))
-	then
-		Conclusion c = new Conclusion(Conclusion.PayloadCurrentSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PayloadCurrentSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
 // Power Module
-rule "Power thermal sub-system partial failure"
+rule "Power thermal sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Thermal", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PowerThermalSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PowerThermalSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Power thermal sub-system full failure"
+rule "Power thermal sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Thermal", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PowerThermalSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PowerThermalSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Power power sub-system partial failure"
+rule "Power voltage sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Power", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PowerPowerSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PowerVoltageSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Power power sub-system full failure"
+rule "Power voltage sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Power", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PowerPowerSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PowerVoltageSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Power voltage sub-system partial failure"
+rule "Power current sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Voltage", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PowerVoltageSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PowerCurrentSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Power voltage sub-system full failure"
+rule "Power current sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Voltage", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PowerVoltageSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
-		insert(c);
-end
-
-rule "Power current sub-system partial failure"
-	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", value < 45))
-	then
-		Conclusion c = new Conclusion(Conclusion.PowerCurrentSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
-		insert(c);
-end
-
-rule "Power current sub-system full failure"
-	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", value < 45))
-	then
-		Conclusion c = new Conclusion(Conclusion.PowerCurrentSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PowerCurrentSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
 // OBC Module
-rule "OBC thermal sub-system partial failure"
+rule "OBC thermal sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Thermal", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.OBCThermalSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.OBCThermalSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "OBC thermal sub-system full failure"
+rule "OBC thermal sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Thermal", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.OBCThermalSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.OBCThermalSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "OBC power sub-system partial failure"
+rule "OBC voltage sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Power", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.OBCPowerSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.OBCVoltageSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "OBC power sub-system full failure"
+rule "OBC voltage sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Power", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.OBCPowerSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.OBCVoltageSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "OBC voltage sub-system partial failure"
+rule "OBC current sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Voltage", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.OBCVoltageSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.OBCCurrentSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "OBC voltage sub-system full failure"
+rule "OBC current sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Voltage", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.OBCVoltageSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
-		insert(c);
-end
-
-rule "OBC current sub-system partial failure"
-	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", value < 45))
-	then
-		Conclusion c = new Conclusion(Conclusion.OBCCurrentSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
-		insert(c);
-end
-
-rule "OBC current sub-system full failure"
-	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", value < 45))
-	then
-		Conclusion c = new Conclusion(Conclusion.OBCCurrentSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.OBCCurrentSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
 // Communication Module
-rule "Communication thermal sub-system partial failure"
+rule "Communication thermal sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Thermal", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.CommunicationThermalSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.CommunicationThermalSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Communication thermal sub-system full failure"
+rule "Communication thermal sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Thermal", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.CommunicationThermalSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.CommunicationThermalSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Communication power sub-system partial failure"
+rule "Communication voltage sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Power", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.CommunicationPowerSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.CommunicationVoltageSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Communication power sub-system full failure"
+rule "Communication voltage sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Power", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.CommunicationPowerSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.CommunicationVoltageSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Communication voltage sub-system partial failure"
+rule "Communication current sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Voltage", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.CommunicationVoltageSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.CommunicationCurrentSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Communication voltage sub-system full failure"
+rule "Communication current sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Voltage", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.CommunicationVoltageSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
-		insert(c);
-end
-
-rule "Communication current sub-system partial failure"
-	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", value < 45))
-	then
-		Conclusion c = new Conclusion(Conclusion.CommunicationCurrentSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
-		insert(c);
-end
-
-rule "Communication current sub-system full failure"
-	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", value < 45))
-	then
-		Conclusion c = new Conclusion(Conclusion.CommunicationCurrentSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.CommunicationCurrentSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
 // Thermal Controller Module
-rule "Thermal Controller thermal sub-system partial failure"
+rule "Thermal Controller thermal sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Thermal", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.ThermalControllerThermalSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.ThermalControllerThermalSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Thermal Controller thermal sub-system full failure"
+rule "Thermal Controller thermal sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Thermal", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.ThermalControllerThermalSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.ThermalControllerThermalSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Thermal Controller power sub-system partial failure"
+
+rule "Thermal Controller voltage sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Power", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.ThermalControllerPowerSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.ThermalControllerVoltageSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Thermal Controller power sub-system full failure"
+rule "Thermal Controller voltage sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Power", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.ThermalControllerPowerSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.ThermalControllerVoltageSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Thermal Controller voltage sub-system partial failure"
+rule "Thermal Controller current sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Voltage", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.ThermalControllerVoltageSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.ThermalControllerCurrentSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Thermal Controller voltage sub-system full failure"
+rule "Thermal Controller current sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Voltage", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.ThermalControllerVoltageSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
-		insert(c);
-end
-
-rule "Thermal Controller current sub-system partial failure"
-	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Current", value < 45))
-	then
-		Conclusion c = new Conclusion(Conclusion.ThermalControllerCurrentSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
-		insert(c);
-end
-
-rule "Thermal Controller current sub-system full failure"
-	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Current", value < 45))
-	then
-		Conclusion c = new Conclusion(Conclusion.ThermalControllerCurrentSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.ThermalControllerCurrentSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
 // Propulsion Module
-rule "Propulsion thermal sub-system partial failure"
+rule "Propulsion thermal sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Thermal", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PropulsionThermalSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PropulsionThermalSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Propulsion thermal sub-system full failure"
+rule "Propulsion thermal sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Thermal", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PropulsionThermalSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PropulsionThermalSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Propulsion power sub-system partial failure"
+
+rule "Propulsion voltage sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Power", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PropulsionPowerSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PropulsionVoltageSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Propulsion power sub-system full failure"
+rule "Propulsion voltage sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Power", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PropulsionPowerSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PropulsionVoltageSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Propulsion voltage sub-system partial failure"
+rule "Propulsion current sub-system failure"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Voltage", value < 45))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PropulsionVoltageSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PropulsionCurrentSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Propulsion voltage sub-system full failure"
+rule "Propulsion current sensor error"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Voltage", value < 45))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.PropulsionVoltageSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
+		Conclusion c = new Conclusion(Conclusion.PropulsionCurrentSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Propulsion current sub-system partial failure"
-	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", value < 45))
-	then
-		Conclusion c = new Conclusion(Conclusion.PropulsionCurrentSensorPartialFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
-		insert(c);
-end
-
-rule "Propulsion current sub-system full failure"
-	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", value < 45))
-	then
-		Conclusion c = new Conclusion(Conclusion.PropulsionCurrentSensorFullFailure, $sensor.getSubSystem());
-		System.out.println("count: " + $count.size());
-		insert(c);
-end
-
+rule "AOCS Switch Not Off Error"
+    when
+        $sensor: Sensor(subSystem matches "AOCS", )
 
 
