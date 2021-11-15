@@ -1,11 +1,38 @@
 :-dynamic fact/2,last_fact/1.
 
 rule 1
-	if [evaluate(aocs_thermal(ID,<,-10)) or evaluate(aocs_thermal(ID,>,50))]
-	then [create_fact(aocs_thermal(ID,partial_failure))].
+	if [evaluate(aocs_thermalMain(ID,<,-20)) or evaluate(aocs_thermalMain(ID,>,30))]
+	then [create_fact(aocs_thermalMain(failure, main_sensor_fail))].
 
 rule 2
-	if [aocs_thermal(1, partial_failure)]
-	then [create_fact(aocs(failure))].
+	if [aocs_thermalMain(failure, _) and (evaluate(aocs_thermalRed(ID,<,-20)) or evaluate(aocs_thermalRed(ID,>,30)))]
+	then [create_fact(aocs_thermalAll(failure, incorrect_temperature))].
 
-fact(1,aocs_thermal(1, 56)).
+rule 3
+	if [aocs_switch(_,0) and aocs_tension(_,28) and evaluate(aocs_current(_,>,0.1))]
+	then [create_fact(aocs_switch(failure, switch_not_off_correctly))].
+
+rule 4
+	if [aocs_switch(_,1) and aocs_tension(_,28) and evaluate(aocs_current(_,<,1))]
+	then [create_fact(aocs_switch(failure, low_current))].
+
+rule 5
+	if [aocs_switch(_,1) and aocs_tension(_,28) and evaluate(aocs_current(_,>,2))]
+	then [create_fact(aocs_switch(failure, high_current))].
+
+rule 6
+	if [aocs_switch(_,1) and evaluate(aocs_thermalMain(_,<,15)) and (evaluate(aocs_current(_,<,2)) and evaluate(aocs_current(_,>,0)))]
+	then [create_fact(aocs_thermalAll(failure, resistence_not_working))].
+
+rule 7
+	if [aocs_thermalAll(failure, X) or aocs_switch(failure, X)]
+	then [create_fact(aocs(failure, X))].
+
+
+
+fact(1,aocs_thermalMain(1, -21)).
+fact(2,aocs_thermalRed(1.1, -21)).
+fact(3,aocs_thermalRed(1.2, -21)).
+fact(4,aocs_switch(1, 1)).
+fact(5,aocs_tension(1, 28)).
+fact(6,aocs_current(1, 0)).

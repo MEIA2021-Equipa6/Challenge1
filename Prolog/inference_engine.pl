@@ -12,6 +12,9 @@
 
 :-dynamic justify/3,fact_triggers_rules/2.
 
+cleanup_db :-
+      retractall(fact(_,_)).
+
 load_kb:-
 	write('File name for knowledge base (end with dot) -> '),
 	read(NBC),
@@ -20,7 +23,8 @@ load_kb:-
 start_engine:-
 	calculate_last_fact,
 	calculate_last_rule,
-	generate_metaknowledge([aocs_thermal(_,_)]),
+	generate_metaknowledge([aocs_thermalMain(_,_), aocs_thermalRed(_,_), aocs_switch(_,_), 
+	aocs_tension(_,_), aocs_current(_,_), aocs(_,_)]),
 	fact(N,Fact),
 	fact_triggers_rules1(Fact, LRules),
 	trigger_rules(N, Fact, LRules),
