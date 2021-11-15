@@ -15,12 +15,12 @@ public class Conclusion {
     public static final String PayloadCurrentSensorError = "Payload Current Sensor Error: ";
     public static final String PayloadCurrentSubSystemFailure = "Payload Current Full Failure";
 
-    public static final String SwitchThermalSensorError = "Switch Module Thermal Sensor Error: ";
-    public static final String SwitchThermalSubSystemFailure = "Switch Module Thermal Full Failure";
-    public static final String SwitchVoltageSensorError = "Switch Module Voltage Sensor Error: ";
-    public static final String SwitchVoltageSubSystemFailure = "Switch Module Voltage Full Failure";
-    public static final String SwitchCurrentSensorError = "Switch Module Current Sensor Error: ";
-    public static final String SwitchCurrentSubSystemFailure = "Switch Module Current Full Failure";
+    public static final String PowerThermalSensorError = "Power Module Thermal Sensor Error: ";
+    public static final String PowerThermalSubSystemFailure = "Power Module Thermal Full Failure";
+    public static final String PowerVoltageSensorError = "Power Module Voltage Sensor Error: ";
+    public static final String PowerVoltageSubSystemFailure = "Power Module Voltage Full Failure";
+    public static final String PowerCurrentSensorError = "Power Module Current Sensor Error: ";
+    public static final String PowerCurrentSubSystemFailure = "Power Module Current Full Failure";
 
     public static final String OBCThermalSensorError = "OBC Thermal Sensor Error: ";
     public static final String OBCThermalSubSystemFailure = "OBC Thermal Full Failure";

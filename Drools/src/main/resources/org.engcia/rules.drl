@@ -127,52 +127,52 @@ rule "Payload current sensor error"
 		insert(c);
 end
 
-// Switch Module
-rule "Switch thermal sub-system failure"
+// Power Module
+rule "Power thermal sub-system failure"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Switch", type matches "Thermal", (value < -20 || value > 30)))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.SwitchThermalSubSystemFailure, $sensor.getSubSystem());
+		Conclusion c = new Conclusion(Conclusion.PowerThermalSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Switch thermal sensor error"
+rule "Power thermal sensor error"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Switch", type matches "Thermal", (value < -20 || value > 30)))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Thermal", (value < -20 || value > 30)))
 	then
-		Conclusion c = new Conclusion(Conclusion.SwitchThermalSensorError, $sensor.getSubSystem());
+		Conclusion c = new Conclusion(Conclusion.PowerThermalSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Switch voltage sub-system failure"
+rule "Power voltage sub-system failure"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Switch", type matches "Voltage", (value < 27 || value > 32)))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.SwitchVoltageSubSystemFailure, $sensor.getSubSystem());
+		Conclusion c = new Conclusion(Conclusion.PowerVoltageSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Switch voltage sensor error"
+rule "Power voltage sensor error"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Switch", type matches "Voltage", (value < 27 || value > 32)))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Voltage", (value < 27 || value > 32)))
 	then
-		Conclusion c = new Conclusion(Conclusion.SwitchVoltageSensorError, $sensor.getSubSystem());
+		Conclusion c = new Conclusion(Conclusion.PowerVoltageSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Switch current sub-system failure"
+rule "Power current sub-system failure"
 	when
-	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Switch", type matches "Current", (value < 2 || value > 5)))
+	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.SwitchCurrentSubSystemFailure, $sensor.getSubSystem());
+		Conclusion c = new Conclusion(Conclusion.PowerCurrentSubSystemFailure, $sensor.getSubSystem());
 		insert(c);
 end
 
-rule "Switch current sensor error"
+rule "Power current sensor error"
 	when
-	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Switch", type matches "Current", (value < 2 || value > 5)))
+	    $count : ArrayList(size = 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", (value < 2 || value > 5)))
 	then
-		Conclusion c = new Conclusion(Conclusion.SwitchCurrentSensorError, $sensor.getSubSystem());
+		Conclusion c = new Conclusion(Conclusion.PowerCurrentSensorError, $sensor.getSubSystem());
 		insert(c);
 end
 
