@@ -23,8 +23,9 @@ load_kb:-
 start_engine:-
 	calculate_last_fact,
 	calculate_last_rule,
-	generate_metaknowledge([aocs_thermalMain(_,_), aocs_thermalRed(_,_), aocs_switch(_,_), 
-	aocs_tension(_,_), aocs_current(_,_), aocs(_,_)]),
+	generate_metaknowledge([aocs_thermal(_,_), aocs_thermalFailure(_,_), aocs_switch(_,_), 
+	aocs_tension(_,_), aocs_current(_,_), aocs_switchFailure(_,_), aocs(_,_), power_thermal(_,_), 
+	power_thermalFailure(_,_), power_switch(_,_), power_tension(_,_), power_current(_,_), power_switchFailure(_,_)]),
 	fact(N,Fact),
 	fact_triggers_rules1(Fact, LRules),
 	trigger_rules(N, Fact, LRules),
