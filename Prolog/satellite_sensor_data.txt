@@ -1,11 +1,19 @@
 :-dynamic fact/2,last_fact/1.
 
 rule 1
-	if [evaluate(aocs_thermal(ID,<,-10)) or evaluate(aocs_thermal(ID,>,50))]
-	then [create_fact(aocs_thermal(ID,partial_failure))].
+	if [evaluate(aocs_thermal(ID,<,-20)) or evaluate(aocs_thermal(ID,>,30))]
+	then [create_fact(aocs_thermalFailure(ID, _))].
 
 rule 2
-	if [aocs_thermal(1, partial_failure)]
-	then [create_fact(aocs(failure))].
+	if [aocs_thermalFailure(main, _) and aocs_thermalFailure(red1, _) and aocs_thermalFailure(red2, _)]
+	then [create_fact(aocs_thermalFailure(all, _))].
 
-fact(1,aocs_thermal(1, 56)).
+rule 3
+	if [aocs_thermalFailure(all, _)]
+	then [create_fact(aocs(_, failure))].
+
+
+fact(1,aocs_thermal(main, 56)).
+fact(2,aocs_thermal(red1, 55)).
+fact(3,aocs_thermal(red2, 72)).
+
