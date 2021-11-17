@@ -20,7 +20,7 @@ load_kb:-
 start_engine:-
 	calculate_last_fact,
 	calculate_last_rule,
-	generate_metaknowledge([aocs_thermal(_,_)]),
+	generate_metaknowledge([aocs_thermal(_,_), aocs_thermalFailure(_, _), aocs(_, _)]),
 	fact(N,Fact),
 	fact_triggers_rules1(Fact, LRules),
 	trigger_rules(N, Fact, LRules),
@@ -55,7 +55,7 @@ fact_is_in_condition(F,[evaluate(F1) and _]):- F=..[H,H1|_],F1=..[H,H1|_].
 fact_is_in_condition(F,[_ and Fs]):- fact_is_in_condition(F,[Fs]).
 
 fact_is_in_condition(F,[F  or _]).
-fact_is_in_condition(F,[evaluate(F1) or _]):- F=..[H,H1|_], F1=..[H,H1|_], !.
+fact_is_in_condition(F,[evaluate(F1) or _]):- F=..[H,H1|_], F1=..[H,H1|_].
 fact_is_in_condition(F,[_ or Fs]):- fact_is_in_condition(F,[Fs]).
 
 fact_is_in_condition(F,[F]):-!.
@@ -287,5 +287,5 @@ generate_metaknowledge([F|LF]):-generate_metaknowledge1(F),
 	generate_metaknowledge(LF).
 
 generate_metaknowledge1(F):-
-	findall(ID,(rule ID if LHS then _ , fact_is_in_condition(F,LHS)),LID),
+	findall(ID,(rule ID if LHS then _ , fact_is_in_condition(F,LHS)),LID2), sort(LID2, LID), 
 	((LID==[ ],!) ; assertz(fact_triggers_rules(F,LID))).
