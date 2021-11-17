@@ -7,13 +7,9 @@
 :-op(35,xfy,if).
 :-op(240,fx,rule).
 :-op(500,fy,not).
-:-op(700,xfy,or).
 :-op(600,xfy,and).
 
 :-dynamic justify/3,fact_triggers_rules/2.
-
-cleanup_db :-
-      retractall(fact(_,_)).
 
 load_kb:-
 	write('File name for knowledge base (end with dot) -> '),
@@ -23,7 +19,7 @@ load_kb:-
 start_engine:-
 	calculate_last_fact,
 	calculate_last_rule,
-	generate_metaknowledge([aocs_thermal(_,_), aocs_thermalFailure(_, _), aocs(_, _)]),
+	generate_metaknowledge([type(_, passengers),type(_, goods), type(_, mixed),capacity(_, _), weight(_, _), class(_, light),class(_, heavy)]), 
 	fact(N,Fact),
 	fact_triggers_rules1(Fact, LRules),
 	trigger_rules(N, Fact, LRules),
@@ -38,11 +34,8 @@ fact_triggers_rules1(_, []).
 trigger_rules(N, Fact, [ID|LRules]):-
 	rule ID if LHS then RHS,
 	fact_is_in_condition(Fact,LHS),
-	% verify_conditions will check for all the facts that are true for LHS.
 	verify_conditions(LHS, LFacts),
-	% we will then check if the fact being considered is in that list 
 	member(N,LFacts),
-	% for explanation module purposes, the whole list of facts is then written to a justify/3 fact
 	conclude(RHS,ID,LFacts),
 	!,
 	trigger_rules(N, Fact, LRules).
@@ -54,18 +47,16 @@ trigger_rules(_, _, []).
 
 
 fact_is_in_condition(F,[F  and _]).
+
 fact_is_in_condition(F,[evaluate(F1) and _]):- F=..[H,H1|_],F1=..[H,H1|_].
+
 fact_is_in_condition(F,[_ and Fs]):- fact_is_in_condition(F,[Fs]).
 
-fact_is_in_condition(F,[F  or _]).
-fact_is_in_condition(F,[evaluate(F1) or _]):- F=..[H,H1|_], F1=..[H,H1|_].
-fact_is_in_condition(F,[_ or Fs]):- fact_is_in_condition(F,[Fs]).
-
-fact_is_in_condition(F,[F]):-!.
+fact_is_in_condition(F,[F]).
 
 fact_is_in_condition(F,[evaluate(F1)]):-F=..[H,H1|_],F1=..[H,H1|_].
 
-% and - part1
+
 verify_conditions([not evaluate(X) and Y],[not X|LF]):- !,
 	\+ evaluate(_,X),
 	verify_conditions([Y],LF).
@@ -73,32 +64,15 @@ verify_conditions([evaluate(X) and Y],[N|LF]):- !,
 	evaluate(N,X),
 	verify_conditions([Y],LF).
 
-% or - part1
-verify_conditions([not evaluate(X) or Y],[not X|LF]):-
-	\+ evaluate(_,X);
-	verify_conditions([Y],[not X|LF]).
-verify_conditions([evaluate(X) or Y],[N|LF]):-
-	evaluate(N,X);
-	verify_conditions([Y],[N|LF]).
-
 verify_conditions([not evaluate(X)],[not X]):- !, \+ evaluate(_,X).
 verify_conditions([evaluate(X)],[N]):- !, evaluate(N,X).
 
-% and - part2
 verify_conditions([not X and Y],[not X|LF]):- !,
 	\+ fact(_,X),
 	verify_conditions([Y],LF).
 verify_conditions([X and Y],[N|LF]):- !,
 	fact(N,X),
 	verify_conditions([Y],LF).
-
-% or -part2
-verify_conditions([not X or Y],[not X|LF]):-
-	\+ fact(_,X);
-	verify_conditions([Y],[not X|LF]).
-verify_conditions([X or Y],[N|LF]):-
-	fact(N,X);
-	verify_conditions([Y],[N|LF]).
 
 verify_conditions([not X],[not X]):- !, \+ fact(_,X).
 verify_conditions([X],[N]):- fact(N,X).
@@ -152,16 +126,16 @@ show_facts:-
 % Generate "How" explanations
 
 how(N):-last_fact(Last),Last<N,!,
-	write('That fact does not exist.'),nl,nl.
+	write('That conclusion has not yet been made.'),nl,nl.
 how(N):-justify(N,ID,LFacts),!,
 	fact(N,F),
-	write('Fact no.'),write(N),write(' \"'),writeq(F),write('\"'), 
-	write(' can be concluded from rule '),write(ID),
-	write(' after verifying that: '),nl,tab(8),
+	write('Fact no. '),write(N),writeq(F), 
+	write(' can be concluded from the rule '),write(ID),
+	write(' after verifying that: '),
 	write_facts(LFacts), nl,
 	explain(LFacts).
 how(N):-fact(N,F),
-	write('Fact no.'),write(N),write(' \"'),writeq(F),write('\"'),
+	write('Fact no. '),write(N),writeq(F),
 	write(' was initially known.'),nl.
 
 
@@ -176,7 +150,7 @@ write_facts([]).
 explain([I|R]):- \+ integer(I),!,explain(R).
 explain([I|R]):-how(I),
 	explain(R).
-explain([]):-nl.
+explain([]):-	write('********************************************************'),nl.
 
 
 
@@ -197,7 +171,7 @@ whynot(Fact,Level):-
 	find_rules_whynot(Fact,LLPF),
 	whynot1(LLPF,Level).
 whynot(not Fact,Level):-
-	format(Level),write('Because:'),write(' Fact '),write(Fact),
+	format(Level),write('because:'),write(' Fact '),write(Fact),
 	write(' is true.'),nl.
 whynot(Fact,Level):-
 	format(Level),write('Because:'),write(' Fact '),write(Fact),
@@ -290,5 +264,5 @@ generate_metaknowledge([F|LF]):-generate_metaknowledge1(F),
 	generate_metaknowledge(LF).
 
 generate_metaknowledge1(F):-
-	findall(ID,(rule ID if LHS then _ , fact_is_in_condition(F,LHS)),LID2), sort(LID2, LID), 
+	findall(ID,(rule ID if LHS then _ , fact_is_in_condition(F,LHS)),LID),
 	((LID==[ ],!) ; assertz(fact_triggers_rules(F,LID))).

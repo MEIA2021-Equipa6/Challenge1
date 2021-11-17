@@ -1,0 +1,45 @@
+:-dynamic fact/2,last_fact/1.
+
+rule 1
+	if [type(Vehicle,passengers) and class(Vehicle,light)]
+	then [create_fact(light(Vehicle,car))].
+
+rule 2
+	if [type(Vehicle,goods) and class(Vehicle,heavy)]
+	then [create_fact(heavy(Vehicle,truck))].
+
+rule 3
+	if [type(Vehicle,passengers) and class(Vehicle,heavy)]
+	then [create_fact(heavy(Vehicle,bus_mofo))].
+
+rule 4
+	if [type(Vehicle,mixed) and class(Vehicle,heavy)]
+	then [create_fact(heavy(Vehicle,van))].
+
+rule 5
+	if [evaluate(capacity(Vehicle,>,9))]
+	then [create_fact(class(Vehicle,heavy))].
+
+rule 6
+	if [evaluate(weight(Vehicle,>,3500))]
+	then [create_fact(class(Vehicle,heavy))].
+
+rule 7
+	if [evaluate(capacity(Vehicle,=<,9)) and evaluate(weight(Vehicle,=<,3500))]
+	then [create_fact(class(Vehicle,light))].
+
+rule 8
+	if [type(Vehicle,goods) and type(Vehicle,passengers)]
+	then [create_fact(type(Vehicle,mixed))].
+
+rule 9
+	if [evaluate(capacity(Vehicle,=<,4))]
+	then [create_fact(weight(Vehicle,3000))].
+
+
+fact(1,capacity(my_vehicle,3)).
+fact(2,capacity(your_vehicle,3)).
+
+
+
+
