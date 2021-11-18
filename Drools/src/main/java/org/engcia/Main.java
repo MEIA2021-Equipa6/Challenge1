@@ -3,12 +3,10 @@ package org.engcia;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.drools.core.util.StringUtils;
 import org.engcia.model.Conclusion;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import org.engcia.model.Sensor;
@@ -22,8 +20,8 @@ import org.kie.api.runtime.rule.ViewChangedEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Haemorrhage {
-    static final Logger LOG = LoggerFactory.getLogger(Haemorrhage.class);
+public class Main {
+    static final Logger LOG = LoggerFactory.getLogger(Main.class);
     public static List<Sensor> sensors = new ArrayList<Sensor>();
 
     //private final static String FILE = "/home/cristiano/IdeaProjects/Challenge1/Drools/src/main/resources/file.json";
@@ -44,21 +42,18 @@ public class Haemorrhage {
 
     public static void readSensorValuesFromFile(){
         String json = getJsonFile();
-        List<Sensor> sensores = null;
         if(json != null){
             try {
-                sensores = mapper.readValue(json, new TypeReference<List<Sensor>>() {});
-                runEngine(sensores);
+                sensors = mapper.readValue(json, new TypeReference<List<Sensor>>() {});
+                runEngine(sensors);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         }
     }
 
-
-    public static void main(String[] args) {
-        //readSensorValuesFromFile();
-
+    //TODO: Remove this method
+    public static void testMethod(){
         Sensor sensor1 = new Sensor("AOCS", "Thermal", 1, 50);
         Sensor sensor2 = new Sensor("AOCS", "Voltage", 1, 5);
         Sensor sensor3 = new Sensor("AOCS", "Thermal", 2, 50);
@@ -78,6 +73,15 @@ public class Haemorrhage {
         sensors.add(sensor8);
         sensors.add(sensor10);
         runEngine(sensors);
+    }
+
+
+    public static void main(String[] args) throws InterruptedException {
+        //testMethod();
+        while(true) {
+            readSensorValuesFromFile();
+            Thread.sleep(5000);
+        }
     }
 
     private static void runEngine(List<Sensor> sensors) {
