@@ -5,7 +5,7 @@ public class Sensor {
     private String subSystem;
     private String type;
     private int number;
-    private int value;
+    private double value;
 
     public Sensor(String name,int value) {
         this.subSystem = name;
@@ -47,11 +47,11 @@ public class Sensor {
         this.number = number;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(double value) {
         this.value = value;
     }
 }
