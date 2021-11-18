@@ -42,11 +42,10 @@ public class Main {
 
     public static void readSensorValuesFromFile(){
         String json = getJsonFile();
-        List<Sensor> sensores = null;
         if(json != null){
             try {
-                sensores = mapper.readValue(json, new TypeReference<List<Sensor>>() {});
-                runEngine(sensores);
+                sensors = mapper.readValue(json, new TypeReference<List<Sensor>>() {});
+                runEngine(sensors);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
