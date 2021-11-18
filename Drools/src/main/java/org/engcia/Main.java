@@ -55,14 +55,17 @@ public class Main {
     //TODO: Remove this method
     public static void testMethod(){
         Sensor sensor1 = new Sensor("AOCS", "Thermal", 1, 50);
-        Sensor sensor2 = new Sensor("AOCS", "Voltage", 1, 5);
+        Sensor sensor2 = new Sensor("AOCS", "Voltage", 1, 30);
         Sensor sensor3 = new Sensor("AOCS", "Thermal", 2, 50);
-        Sensor sensor4 = new Sensor("AOCS", "Voltage", 2, 5);
+        Sensor sensor4 = new Sensor("AOCS", "Voltage", 2, 29);
         Sensor sensor5 = new Sensor("Power" , "Thermal", 1, 80);
         Sensor sensor6 = new Sensor("Power", "Voltage", 1, 12);
         Sensor sensor7 = new Sensor("Power", "Thermal", 2, 10);
-        Sensor sensor10 = new Sensor("Power", "Thermal", 1, 1);
         Sensor sensor8 = new Sensor("Power", "Voltage",2, 12);
+        Sensor sensor9 = new Sensor("AOCS", "Switch",1, 1);
+        Sensor sensor10 = new Sensor("Power", "Thermal", 1, 1);
+        Sensor sensor11 = new Sensor("AOCS", "Current",1, 0);
+        Sensor sensor12 = new Sensor("AOCS", "Current",2, 0);
         sensors.add(sensor1);
         sensors.add(sensor2);
         sensors.add(sensor3);
@@ -71,17 +74,20 @@ public class Main {
         sensors.add(sensor6);
         sensors.add(sensor7);
         sensors.add(sensor8);
+        sensors.add(sensor9);
         sensors.add(sensor10);
+        sensors.add(sensor11);
+        sensors.add(sensor12);
         runEngine(sensors);
     }
 
 
     public static void main(String[] args) throws InterruptedException {
-        //testMethod();
-        while(true) {
+        testMethod();
+        /**while(true) {
             readSensorValuesFromFile();
             Thread.sleep(5000);
-        }
+        }*/
     }
 
     private static void runEngine(List<Sensor> sensors) {
