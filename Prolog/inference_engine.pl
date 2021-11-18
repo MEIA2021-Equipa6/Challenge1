@@ -36,6 +36,7 @@ fact_triggers_rules1(_, []).
 % Case where there are no rules associated with the fact being considered.
 
 trigger_rules(N, Fact, [ID|LRules]):-
+	% get the rule from our knowledge database
 	rule ID if LHS then RHS,
 	fact_is_in_condition(Fact,LHS),
 	% verify_conditions will check for all the facts that are true for LHS.
@@ -107,12 +108,20 @@ verify_conditions([X],[N]):- fact(N,X).
 
 conclude([create_fact(F)|Y],ID,LFacts):-
 	!,
-	create_fact(F,ID,LFacts),
+	create_fact(F,ID,LFacts),!,
+	test_new_fact(F),
 	conclude(Y,ID,LFacts).
 
 conclude([],_,_):-!.
 
 
+test_new_fact(Fact):- 
+	% update this in all generate_metaknowledge calls!
+	generate_metaknowledge([aocs_thermal(_,_), aocs_thermalFailure(_, _), aocs(_, _)]),
+	% get N (ID of the Fact) using the fact received as parameter
+	fact(N, Fact),
+	fact_triggers_rules1(Fact, LRules),
+	trigger_rules(N, Fact, LRules).
 
 create_fact(F,_,_):-
 	fact(_,F),!.

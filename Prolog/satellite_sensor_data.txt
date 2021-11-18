@@ -2,15 +2,15 @@
 
 rule 1
 	if [evaluate(aocs_thermal(ID,<,-20)) or evaluate(aocs_thermal(ID,>,30))]
-	then [create_fact(aocs_thermalFailure(ID, _))].
+	then [create_fact(aocs_thermalFailure(ID, possible_incorrect_temperature))].
 
 rule 2
 	if [aocs_thermalFailure(main, _) and aocs_thermalFailure(red1, _) and aocs_thermalFailure(red2, _)]
-	then [create_fact(aocs_thermalFailure(all, _))].
+	then [create_fact(aocs_thermalFailure(all, incorrect_temperature))].
 
 rule 3
 	if [aocs_thermalFailure(all, _)]
-	then [create_fact(aocs(_, failure))].
+	then [create_fact(aocs(all, failure))].
 
 
 fact(1,aocs_thermal(main, 56)).
