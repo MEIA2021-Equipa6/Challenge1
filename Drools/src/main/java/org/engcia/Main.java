@@ -3,12 +3,10 @@ package org.engcia;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.drools.core.util.StringUtils;
 import org.engcia.model.Conclusion;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import org.engcia.model.Sensor;
@@ -22,8 +20,8 @@ import org.kie.api.runtime.rule.ViewChangedEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Haemorrhage {
-    static final Logger LOG = LoggerFactory.getLogger(Haemorrhage.class);
+public class Main {
+    static final Logger LOG = LoggerFactory.getLogger(Main.class);
     public static List<Sensor> sensors = new ArrayList<Sensor>();
 
     //private final static String FILE = "/home/cristiano/IdeaProjects/Challenge1/Drools/src/main/resources/file.json";
@@ -56,28 +54,31 @@ public class Haemorrhage {
     }
 
 
-    public static void main(String[] args) {
-        //readSensorValuesFromFile();
+    public static void main(String[] args) throws InterruptedException {
+        while(true) {
+            readSensorValuesFromFile();
+            Thread.sleep(5000);
+        }
 
-        Sensor sensor1 = new Sensor("AOCS", "Thermal", 1, 50);
-        Sensor sensor2 = new Sensor("AOCS", "Voltage", 1, 5);
-        Sensor sensor3 = new Sensor("AOCS", "Thermal", 2, 50);
-        Sensor sensor4 = new Sensor("AOCS", "Voltage", 2, 5);
-        Sensor sensor5 = new Sensor("Power" , "Thermal", 1, 80);
-        Sensor sensor6 = new Sensor("Power", "Voltage", 1, 12);
-        Sensor sensor7 = new Sensor("Power", "Thermal", 2, 10);
-        Sensor sensor10 = new Sensor("Power", "Thermal", 1, 1);
-        Sensor sensor8 = new Sensor("Power", "Voltage",2, 12);
-        sensors.add(sensor1);
-        sensors.add(sensor2);
-        sensors.add(sensor3);
-        sensors.add(sensor4);
-        sensors.add(sensor5);
-        sensors.add(sensor6);
-        sensors.add(sensor7);
-        sensors.add(sensor8);
-        sensors.add(sensor10);
-        runEngine(sensors);
+//        Sensor sensor1 = new Sensor("AOCS", "Thermal", 1, 50);
+//        Sensor sensor2 = new Sensor("AOCS", "Voltage", 1, 5);
+//        Sensor sensor3 = new Sensor("AOCS", "Thermal", 2, 50);
+//        Sensor sensor4 = new Sensor("AOCS", "Voltage", 2, 5);
+//        Sensor sensor5 = new Sensor("Power" , "Thermal", 1, 80);
+//        Sensor sensor6 = new Sensor("Power", "Voltage", 1, 12);
+//        Sensor sensor7 = new Sensor("Power", "Thermal", 2, 10);
+//        Sensor sensor10 = new Sensor("Power", "Thermal", 1, 1);
+//        Sensor sensor8 = new Sensor("Power", "Voltage",2, 12);
+//        sensors.add(sensor1);
+//        sensors.add(sensor2);
+//        sensors.add(sensor3);
+//        sensors.add(sensor4);
+//        sensors.add(sensor5);
+//        sensors.add(sensor6);
+//        sensors.add(sensor7);
+//        sensors.add(sensor8);
+//        sensors.add(sensor10);
+//        runEngine(sensors);
     }
 
     private static void runEngine(List<Sensor> sensors) {
