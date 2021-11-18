@@ -12,9 +12,10 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <drools-version>7.44.0.Final</drools-version>
-    <slf4j-version>1.7.26</slf4j-version>
+    <drools-version>7.37.0.Final</drools-version>
     <junit-version>4.12</junit-version>
+    <jdk-version>11</jdk-version>
+    <logback-version>1.2.3</logback-version>
   </properties>
 
   <dependencyManagement>
@@ -26,32 +27,18 @@
         <version>${drools-version}</version>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>org.drools</groupId>
+        <artifactId>drools-engine</artifactId>
+        <version>${kie.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
-
-    <dependency>
-        <groupId>org.drools</groupId>
-        <artifactId>drools-compiler</artifactId>
-        <scope>compile</scope>
-      </dependency>
     <dependency>
       <groupId>org.drools</groupId>
-      <artifactId>drools-model-compiler</artifactId>
-    </dependency>
-
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit-version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>${slf4j-version}</version>
+      <artifactId>drools-compiler</artifactId>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -61,9 +48,15 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>org.kie</groupId>
-      <artifactId>kie-api</artifactId>
-      <version>7.44.0.Final</version>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit-version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback-version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -77,10 +70,10 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1</version>
+        <version>3.8.0</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>${jdk-version}</source>
+          <target>${jdk-version}</target>
         </configuration>
       </plugin>
       <plugin>
@@ -88,14 +81,6 @@
         <artifactId>kie-maven-plugin</artifactId>
         <version>${drools-version}</version>
         <extensions>true</extensions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>11</source>
-          <target>11</target>
-        </configuration>
       </plugin>
     </plugins>
 

@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 public class Haemorrhage {
     static final Logger LOG = LoggerFactory.getLogger(Haemorrhage.class);
-    public static List<Sensor> sensors = new ArrayList<>();
+    public static List<Sensor> sensors = new ArrayList<Sensor>();
 
     //private final static String FILE = "/home/cristiano/IdeaProjects/Challenge1/Drools/src/main/resources/file.json";
     private final static String FILE = "/home/cristiano/file.json";
@@ -47,7 +47,7 @@ public class Haemorrhage {
         List<Sensor> sensores = null;
         if(json != null){
             try {
-                sensores = mapper.readValue(json, new TypeReference<>() {});
+                sensores = mapper.readValue(json, new TypeReference<List<Sensor>>() {});
                 runEngine(sensores);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
