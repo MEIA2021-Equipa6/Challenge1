@@ -1,0 +1,56 @@
+[
+  {
+    "subSystem": "AOCS",
+    "type": "Thermal",
+    "number" : 1,
+    "value": 50
+  },
+  {
+    "subSystem": "AOCS",
+    "type": "Voltage",
+    "number" : 1,
+    "value": 5
+  },
+  {
+    "subSystem": "AOCS",
+    "type": "Thermal",
+    "number" : 2,
+    "value": 50
+  },
+  {
+    "subSystem": "AOCS",
+    "type": "Voltage",
+    "number" : 2,
+    "value": 5
+  },
+  {
+    "subSystem": "Power",
+    "type": "Thermal",
+    "number" : 1,
+    "value": 80
+  },
+  {
+    "subSystem": "Power",
+    "type": "Voltage",
+    "number" : 1,
+    "value": 12
+  },
+  {
+    "subSystem": "Power",
+    "type": "Thermal",
+    "number" : 2,
+    "value": 10
+  },
+  {
+    "subSystem": "Power",
+    "type": "Thermal",
+    "number" : 1,
+    "value": 1
+  },
+  {
+    "subSystem": "Power",
+    "type": "Voltage",
+    "number" : 2,
+    "value": 12
+  }
+]
