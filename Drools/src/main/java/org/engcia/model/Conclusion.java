@@ -87,10 +87,19 @@ public class Conclusion {
 
     private String description;
     private String sensorName;
+    private ConclusionType conclusionType;
+    private String subSystemName;
 
     public Conclusion(String description, String sensorName) {
         super();
         this.description = description;
+        this.sensorName = sensorName;
+    }
+
+    public Conclusion(ConclusionType conclusionType, String subSystemName, String sensorName) {
+        super();
+        this.conclusionType = conclusionType;
+        this.subSystemName = subSystemName;
         this.sensorName = sensorName;
     }
 
@@ -114,4 +123,19 @@ public class Conclusion {
         this.sensorName = sensorName;
     }
 
+    public ConclusionType getConclusionType() {
+        return conclusionType;
+    }
+
+    public void setConclusionType(ConclusionType conclusionType) {
+        this.conclusionType = conclusionType;
+    }
+
+    public String getSubSystemName() {
+        return subSystemName;
+    }
+
+    public void setSubSystemName(String subSystemName) {
+        this.subSystemName = subSystemName;
+    }
 }

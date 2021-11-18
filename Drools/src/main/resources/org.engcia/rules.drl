@@ -32,8 +32,9 @@ end
 rule "AOCS thermal sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut: Sensor(subSystem matches "AOCS", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Conclusion c = new Conclusion(Conclusion.AOCSThermalSubSystemFailure, "");
+		Conclusion c = new Conclusion(Conclusion.AOCSThermalSubSystemFailure, $sensorOut.getSubSystem());
 		insert(c);
 end
 
