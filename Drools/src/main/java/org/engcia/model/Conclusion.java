@@ -1,5 +1,7 @@
 package org.engcia.model;
 
+import java.text.MessageFormat;
+
 public class Conclusion {
     public static final String AOCSThermalSensorError = "AOCS Thermal Sensor Error: ";
     public static final String AOCSThermalSubSystemFailure = "AOCS Thermal Full Failure";
@@ -137,5 +139,9 @@ public class Conclusion {
 
     public void setSubSystemName(String subSystemName) {
         this.subSystemName = subSystemName;
+    }
+
+    public String getConclusionDescription(){
+        return MessageFormat.format(conclusionType.description, subSystemName, sensorName);
     }
 }
