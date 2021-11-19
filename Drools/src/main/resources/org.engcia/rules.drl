@@ -33,7 +33,7 @@ end
 rule "AOCS thermal sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Thermal", (value < -20 || value > 30)))
-	    $sensorOut: Sensor(subSystem matches "AOCS", type matches "Thermal", (value < -20 || value > 30))
+	    $sensorOut : Sensor(subSystem matches "AOCS", type matches "Thermal", (value < -20 || value > 30))
 	then
 		Observation o = new Observation(Observation.AOCSThermalSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
@@ -42,16 +42,18 @@ end
 rule "AOCS thermal sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "AOCS", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.AOCSThermalSensorError, "");
+		Observation o = new Observation(Observation.AOCSThermalSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "AOCS thermal sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "AOCS", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.AOCSThermalSubSystemOK, "");
+		Observation o = new Observation(Observation.AOCSThermalSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
@@ -59,48 +61,54 @@ end
 rule "AOCS voltage sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "AOCS", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.AOCSVoltageSubSystemFailure, "");
+		Observation o = new Observation(Observation.AOCSVoltageSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "AOCS voltage sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "AOCS", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.AOCSVoltageSensorError, "");
+		Observation o = new Observation(Observation.AOCSVoltageSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "AOCS voltage sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "AOCS", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.AOCSVoltageSubSystemOK, "");
+		Observation o = new Observation(Observation.AOCSVoltageSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "AOCS current sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "AOCS", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.AOCSCurrentSubSystemFailure, "");
+		Observation o = new Observation(Observation.AOCSCurrentSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "AOCS current sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "AOCS", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.AOCSCurrentSensorError, "");
+		Observation o = new Observation(Observation.AOCSCurrentSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "AOCS current sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "AOCS", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.AOCSCurrentSubSystemOK, "");
+		Observation o = new Observation(Observation.AOCSCurrentSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
@@ -108,72 +116,81 @@ end
 rule "Payload thermal sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Payload", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.PayloadThermalSubSystemFailure, "");
+		Observation o = new Observation(Observation.PayloadThermalSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "PayPayload thermal sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Payload", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.PayloadThermalSensorError, "");
+		Observation o = new Observation(Observation.PayloadThermalSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "PayPayload thermal sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Payload", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.PayloadThermalSubSystemOK, "");
+		Observation o = new Observation(Observation.PayloadThermalSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Payload voltage sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Payload", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.PayloadVoltageSubSystemFailure, "");
+		Observation o = new Observation(Observation.PayloadVoltageSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Payload voltage sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Payload", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.PayloadVoltageSensorError, "");
+		Observation o = new Observation(Observation.PayloadVoltageSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "PayPayload voltage sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Payload", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.PayloadVoltageSubSystemOK, "");
+		Observation o = new Observation(Observation.PayloadVoltageSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Payload current sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Payload", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.PayloadCurrentSubSystemFailure, "");
+		Observation o = new Observation(Observation.PayloadCurrentSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Payload current sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Payload", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.PayloadCurrentSensorError, "");
+		Observation o = new Observation(Observation.PayloadCurrentSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "PayPayload current sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Payload", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.PayloadCurrentSubSystemOK, "");
+		Observation o = new Observation(Observation.PayloadCurrentSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
@@ -181,72 +198,81 @@ end
 rule "Power thermal sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Power", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.PowerThermalSubSystemFailure, "");
+		Observation o = new Observation(Observation.PowerThermalSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Power thermal sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Power", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.PowerThermalSensorError, "");
+		Observation o = new Observation(Observation.PowerThermalSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Power thermal sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Power", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Power", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.PowerThermalSubSystemOK, "");
+		Observation o = new Observation(Observation.PowerThermalSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Power voltage sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Power", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.PowerVoltageSubSystemFailure, "");
+		Observation o = new Observation(Observation.PowerVoltageSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Power voltage sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Power", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.PowerVoltageSensorError, "");
+		Observation o = new Observation(Observation.PowerVoltageSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Power voltage sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Power", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Power", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.PowerVoltageSubSystemOK, "");
+		Observation o = new Observation(Observation.PowerVoltageSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Power current sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Power", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.PowerCurrentSubSystemFailure, "");
+		Observation o = new Observation(Observation.PowerCurrentSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Power current sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Power", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.PowerCurrentSensorError, "");
+		Observation o = new Observation(Observation.PowerCurrentSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Power current sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Power", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.PowerCurrentSubSystemOK, "");
+		Observation o = new Observation(Observation.PowerCurrentSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
@@ -254,16 +280,18 @@ end
 rule "OBC thermal sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "OBC", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.OBCThermalSubSystemFailure, "");
+		Observation o = new Observation(Observation.OBCThermalSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "OBC thermal sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "OBC", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.OBCThermalSensorError, "");
+		Observation o = new Observation(Observation.OBCThermalSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
@@ -271,8 +299,9 @@ end
 rule "OBC thermal sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "OBC", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.OBCThermalSubSystemOK, "");
+		Observation o = new Observation(Observation.OBCThermalSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
@@ -280,48 +309,54 @@ end
 rule "OBC voltage sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "OBC", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.OBCVoltageSubSystemFailure, "");
+		Observation o = new Observation(Observation.OBCVoltageSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "OBC voltage sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut: Sensor(subSystem matches "OBC", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.OBCVoltageSensorError, "");
+		Observation o = new Observation(Observation.OBCVoltageSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "OBC voltage sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "OBC", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.OBCVoltageSubSystemOK, "");
+		Observation o = new Observation(Observation.OBCVoltageSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "OBC current sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "OBC", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.OBCCurrentSubSystemFailure, "");
+		Observation o = new Observation(Observation.OBCCurrentSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "OBC current sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "OBC", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.OBCCurrentSensorError, "");
+		Observation o = new Observation(Observation.OBCCurrentSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "OBC current sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "OBC", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.OBCCurrentSubSystemOK, "");
+		Observation o = new Observation(Observation.OBCCurrentSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
@@ -329,72 +364,81 @@ end
 rule "Communication thermal sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Communication", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.CommunicationThermalSubSystemFailure, "");
+		Observation o = new Observation(Observation.CommunicationThermalSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Communication thermal sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Communication", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.CommunicationThermalSensorError, "");
+		Observation o = new Observation(Observation.CommunicationThermalSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Communication thermal sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Communication", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.CommunicationThermalSubSystemOK, "");
+		Observation o = new Observation(Observation.CommunicationThermalSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Communication voltage sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Communication", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.CommunicationVoltageSubSystemFailure, "");
+		Observation o = new Observation(Observation.CommunicationVoltageSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Communication voltage sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Communication", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.CommunicationVoltageSensorError, "");
+		Observation o = new Observation(Observation.CommunicationVoltageSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Communication voltage sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Communication", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.CommunicationVoltageSubSystemOK, "");
+		Observation o = new Observation(Observation.CommunicationVoltageSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Communication current sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Communication", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.CommunicationCurrentSubSystemFailure, "");
+		Observation o = new Observation(Observation.CommunicationCurrentSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Communication current sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Communication", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.CommunicationCurrentSensorError, "");
+		Observation o = new Observation(Observation.CommunicationCurrentSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Communication current sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Communication", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.CommunicationCurrentSubSystemOK, "");
+		Observation o = new Observation(Observation.CommunicationCurrentSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
@@ -402,72 +446,81 @@ end
 rule "Thermal Controller thermal sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Thermal Controller", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.ThermalControllerThermalSubSystemFailure, "");
+		Observation o = new Observation(Observation.ThermalControllerThermalSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Thermal Controller thermal sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Thermal Controller", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.ThermalControllerThermalSensorError, "");
+		Observation o = new Observation(Observation.ThermalControllerThermalSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Thermal Controller thermal sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Communication", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.ThermalControllerThermalSubSystemOK, "");
+		Observation o = new Observation(Observation.ThermalControllerThermalSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Thermal Controller voltage sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Thermal Controller", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.ThermalControllerVoltageSubSystemFailure, "");
+		Observation o = new Observation(Observation.ThermalControllerVoltageSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Thermal Controller voltage sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Thermal Controller", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.ThermalControllerVoltageSensorError, "");
+		Observation o = new Observation(Observation.ThermalControllerVoltageSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Thermal Controller voltage sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Communication", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.ThermalControllerVoltageSubSystemOK, "");
+		Observation o = new Observation(Observation.ThermalControllerVoltageSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Thermal Controller current sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Thermal Controller", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.ThermalControllerCurrentSubSystemFailure, "");
+		Observation o = new Observation(Observation.ThermalControllerCurrentSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Thermal Controller current sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Thermal Controller", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.ThermalControllerCurrentSensorError, "");
+		Observation o = new Observation(Observation.ThermalControllerCurrentSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Thermal Controller current sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Communication", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.ThermalControllerCurrentSubSystemOK, "");
+		Observation o = new Observation(Observation.ThermalControllerCurrentSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
@@ -475,72 +528,81 @@ end
 rule "Propulsion thermal sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Propulsion", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.PropulsionThermalSubSystemFailure, "");
+		Observation o = new Observation(Observation.PropulsionThermalSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Propulsion thermal sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Propulsion", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.PropulsionThermalSensorError, "");
+		Observation o = new Observation(Observation.PropulsionThermalSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Propulsion thermal sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Thermal", (value < -20 || value > 30)))
+	    $sensorOut : Sensor(subSystem matches "Propulsion", type matches "Thermal", (value < -20 || value > 30))
 	then
-		Observation o = new Observation(Observation.PropulsionThermalSubSystemOK, "");
+		Observation o = new Observation(Observation.PropulsionThermalSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Propulsion voltage sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Propulsion", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.PropulsionVoltageSubSystemFailure, "");
+		Observation o = new Observation(Observation.PropulsionVoltageSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Propulsion voltage sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Propulsion", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.PropulsionVoltageSensorError, "");
+		Observation o = new Observation(Observation.PropulsionVoltageSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Propulsion voltage sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Voltage", (value < 27 || value > 32)))
+	    $sensorOut : Sensor(subSystem matches "Propulsion", type matches "Voltage", (value < 27 || value > 32))
 	then
-		Observation o = new Observation(Observation.PropulsionVoltageSubSystemOK, "");
+		Observation o = new Observation(Observation.PropulsionVoltageSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Propulsion current sub-system failure"
 	when
 	    $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Propulsion", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.PropulsionCurrentSubSystemFailure, "");
+		Observation o = new Observation(Observation.PropulsionCurrentSubSystemFailure, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Propulsion current sensor error"
 	when
 	    $count : ArrayList(size == 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Propulsion", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.PropulsionCurrentSensorError, "");
+		Observation o = new Observation(Observation.PropulsionCurrentSensorError, $sensorOut.getSubSystem());
 		insert(o);
 end
 
 rule "Propulsion current sensor ok"
 	when
 	    $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", (value < 2 || value > 5)))
+	    $sensorOut : Sensor(subSystem matches "Propulsion", type matches "Current", (value < 2 || value > 5))
 	then
-		Observation o = new Observation(Observation.PropulsionCurrentSubSystemOK, "");
+		Observation o = new Observation(Observation.PropulsionCurrentSubSystemOK, $sensorOut.getSubSystem());
 		insert(o);
 end
 
