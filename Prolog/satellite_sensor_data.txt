@@ -1,19 +1,115 @@
 :-dynamic fact/2,last_fact/1.
 
 rule 1
-	if [evaluate(aocs_thermal(ID,<,-20)) or evaluate(aocs_thermal(ID,>,30))]
-	then [create_fact(aocs_thermalFailure(ID, possible_incorrect_temperature))].
+	if [evaluate(aocs_thermal(main,<,-20)) or evaluate(aocs_thermal(main,>,30))]
+	then [create_fact(aocs_thermalFailure(main, possible_incorrect_temperature))].
 
 rule 2
-	if [aocs_thermalFailure(main, _) and aocs_thermalFailure(red1, _) and aocs_thermalFailure(red2, _)]
+	if [aocs_thermalFailure(main, possible_incorrect_temperature) and ((evaluate(aocs_thermal(red1,<,-20)) and evaluate(aocs_thermal(red1,>,30))) or (evaluate(aocs_thermal(red2,<,-20)) and evaluate(aocs_thermal(red2,>,30))))]
 	then [create_fact(aocs_thermalFailure(all, incorrect_temperature))].
 
 rule 3
-	if [aocs_thermalFailure(all, _)]
+	if [evaluate(aocs_tension(main,\==,28))]
+	then [create_fact(aocs_tensionFailure(main, possible_incorrect_tension))].
+
+rule 4
+	if [aocs_tensionFailure(main, possible_incorrect_tension) and (evaluate(aocs_tension(red1,\==,28)) or evaluate(aocs_tension(red2,\==,28)))]
+	then [create_fact(aocs_tensionFailure(all, incorrect_tension))].
+
+rule 5
+	if [evaluate(aocs_current(main,<,0)) or evaluate(aocs_current(main,>,2))]
+	then [create_fact(aocs_currentFailure(main, possible_incorrect_current))].
+
+rule 6
+	if [aocs_thermalFailure(main, possible_incorrect_current) and ((evaluate(aocs_current(red1,<,0)) and evaluate(aocs_current(red1,>,2))) or (evaluate(aocs_current(red2,<,0)) and evaluate(aocs_current(red2,>,2))))]
+	then [create_fact(aocs_currentFailure(all, incorrect_current))].
+
+rule 7
+	if [aocs_switch(ID,0) and evaluate(aocs_tension(main,==,28)) and evaluate(aocs_current(main,>,0.1))]
+	then [create_fact(aocs_switchFailure(ID, switch_not_off_correctly))].
+
+rule 8
+	if [aocs_switch(main,1) and evaluate(aocs_tension(main,==,28)) and evaluate(aocs_current(main,<,1))]
+	then [create_fact(aocs_switchFailure(all, low_current))].
+
+rule 9
+	if [aocs_switch(main,1) and evaluate(aocs_tension(main,==,28)) and evaluate(aocs_current(main,>,2))]
+	then [create_fact(aocs_switchFailure(all, high_current))].
+
+rule 10
+	if [aocs_switch(main,1) and evaluate(aocs_thermal(main,<,0)) and evaluate(aocs_current(main,<,2)) and evaluate(aocs_current(main,>,0))]
+	then [create_fact(aocs_thermalFailure(all, resistence_not_working))].
+
+rule 11
+	if [aocs_gyroscope(_,detumbling)]
+	then [create_fact(aocs_attitudeFailure(all, attitude_detumbling))].
+
+rule 12
+	if [aocs_gps(main1, 1) and aocs_gps(red1, 1)]
+	then [create_fact(aocs_gpsFailure(all, simultaneous_active_gps))]
+
+rule 13
+	if [aocs_gps(_, 1) and aocs_star_tracker(_,1)]
+	then [create_fact(aocs_gpsFailure(all, gps_and_star_tracker_active))]
+
+rule 14
+	if [aocs_thermalFailure(all, _) or aocs_switchFailure(all,_) or aocs_currentFailure(all,_) or aocs_tensionFailure(all,_) or aocs_attitudeFailure(all,_) or aocs_gpsFailure(all,_)]
 	then [create_fact(aocs(all, failure))].
+
+rule Y
+	if [evaluate(power_current_output(main,<,0)) or evaluate(power_current_output(main,>,20))]
+	then [create_fact(power_currentOutputFailure(main, incorrect_output_current))]
+
+rule Y
+	if [evaluate(power_battery_status(main,<,10))]
+	then [create_fact(power_batteryFailure(main, extreme_low_battery))]
+
+rule Y
+	if [evaluate(power_battery_status(main,<,25))]
+	then [create_fact(power_batteryWarning(main, low_battery))]
+
+rule Y
+	if [evaluate(power_current_input(main,<,0)) or evaluate(power_current_output(main,>,20))]
+	then [create_fact(power_currentInputFailure(main, incorrect_input_current))]
+
+rule Z
+	if [obc_battery_status(main, charging) and evaluate(power_current_input(main,<=,0))]
+	then [create_fact(power_currentInputFailure(main, cant_charge_batteries))]
+
+rule Z+1
+	if [power_current_output(main, current_output) and evaluate(power_current_input(main,<,current_output))]
+	then [create_fact(obc_battery_status(main, discharging))]
+
+rule Z+2
+	if [power_current_output(main, current_output) and evaluate(power_current_input(main,>,current_output))]
+	then [create_fact(obc_battery_status(main, discharging))]
+
+rule Z+3
+	if [power_current_output(main, current_output) and evaluate(power_current_input(main,=,current_output))]
+	then [create_fact(obc_battery_status(main, idle))]
+
+rule Z+4
+	if [obc_battery_status(main, charging) and evaluate(power_current_input(main,<=,0))]
+	then [create_fact(power_currentInputFailure(main, cant_charge_batteries))]
 
 
 fact(1,aocs_thermal(main, 56)).
 fact(2,aocs_thermal(red1, 55)).
 fact(3,aocs_thermal(red2, 72)).
-
+fact(4,aocs_switch(main, 0)).
+fact(5,aocs_tension(main, 28)).
+fact(6,aocs_tension(red1, 28)).
+fact(7,aocs_tension(red2, 28)).
+fact(8,aocs_current(main, 3)).
+fact(9,aocs_current(red1, 3)).
+fact(10,aocs_current(red2, 3)).
+fact(11,aocs_gyroscope(main, detumbling))
+fact(12,aocs_gps(main, 1))
+fact(13,aocs_gps(red1, 0))
+fact(14,aocs_star_tracker(main, 1))
+fact(15,aocs_star_tracker(red1, 1))
+fact(Y,power_current_output(main, 10))
+fact(Y+1,power_current_input(main, 10))
+fact(Y+2,power_battery_status(main, 50))
+fact(Z,obc_battery_status(main, idle))
+fact(Z+1,obc_battery_balance(main, higher_output))
