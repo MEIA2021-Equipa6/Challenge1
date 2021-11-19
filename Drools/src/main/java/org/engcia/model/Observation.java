@@ -10,8 +10,6 @@ public class Observation {
     public static final String AOCSCurrentSensorError = "AOCS Current Sensor Error: ";
     public static final String AOCSCurrentSubSystemFailure = "AOCS Current Full Failure";
     public static final String AOCSCurrentSubSystemOK = "AOCS Current OK";
-    public static final String AOCSSwitchNotOff = "AOCS switch not off";
-    public static final String AOCSSwitchNotOn = "AOCS switch not on";
 
     public static final String PayloadThermalSensorError = "Payload Thermal Sensor Error: ";
     public static final String PayloadThermalSubSystemFailure = "Payload Thermal Full Failure";
@@ -22,8 +20,6 @@ public class Observation {
     public static final String PayloadCurrentSensorError = "Payload Current Sensor Error: ";
     public static final String PayloadCurrentSubSystemFailure = "Payload Current Full Failure";
     public static final String PayloadCurrentSubSystemOK = "Payload Current OK";
-    public static final String PayloadSwitchNotOff = "Payload switch not off";
-    public static final String PayloadSwitchNotOn = "Payload switch not on";
 
     public static final String PowerThermalSensorError = "Power Module Thermal Sensor Error: ";
     public static final String PowerThermalSubSystemFailure = "Power Module Thermal Full Failure";
@@ -34,8 +30,6 @@ public class Observation {
     public static final String PowerCurrentSensorError = "Power Module Current Sensor Error: ";
     public static final String PowerCurrentSubSystemFailure = "Power Module Current Full Failure";
     public static final String PowerCurrentSubSystemOK = "Power Current OK";
-    public static final String PowerSwitchNotOff = "Power switch not off";
-    public static final String PowerSwitchNotOn = "Power switch not on";
 
     public static final String OBCThermalSensorError = "OBC Thermal Sensor Error: ";
     public static final String OBCThermalSubSystemFailure = "OBC Thermal Full Failure";
@@ -46,8 +40,6 @@ public class Observation {
     public static final String OBCCurrentSensorError = "OBC Current Sensor Error: ";
     public static final String OBCCurrentSubSystemFailure = "OBC Current Full Failure";
     public static final String OBCCurrentSubSystemOK = "OBC Current OK";
-    public static final String OBCSwitchNotOff = "OBC switch not off";
-    public static final String OBCSwitchNotOn = "OBC switch not on";
 
     public static final String CommunicationThermalSensorError = "Communication Thermal Sensor Error: ";
     public static final String CommunicationThermalSubSystemFailure = "Communication Thermal Full Failure";
@@ -58,8 +50,6 @@ public class Observation {
     public static final String CommunicationCurrentSensorError = "Communication Current Sensor Error: ";
     public static final String CommunicationCurrentSubSystemFailure = "Communication Current Full Failure";
     public static final String CommunicationCurrentSubSystemOK = "Communication Current OK";
-    public static final String CommunicationSwitchNotOff = "Communication switch not off";
-    public static final String CommunicationSwitchNotOn = "Communication switch not on";
 
     public static final String ThermalControllerThermalSensorError = "Thermal Controller Thermal Sensor Error: ";
     public static final String ThermalControllerThermalSubSystemFailure = "Thermal Controller Thermal Full Failure";
@@ -70,8 +60,6 @@ public class Observation {
     public static final String ThermalControllerCurrentSensorError = "Thermal Controller Current Sensor Error: ";
     public static final String ThermalControllerCurrentSubSystemFailure = "Thermal Controller Current Full Failure";
     public static final String ThermalControllerCurrentSubSystemOK = "Thermal Controller Current OK";
-    public static final String ThermalControllerSwitchNotOff = "Thermal switch not off";
-    public static final String ThermalControllerSwitchNotOn = "Thermal switch not on";
 
     public static final String PropulsionThermalSensorError = "Propulsion Thermal Sensor Error: ";
     public static final String PropulsionThermalSubSystemFailure = "Propulsion Thermal Full Failure";
@@ -82,24 +70,11 @@ public class Observation {
     public static final String PropulsionCurrentSensorError = "Propulsion Current Sensor Error: ";
     public static final String PropulsionCurrentSubSystemFailure = "Propulsion Current Full Failure";
     public static final String PropulsionCurrentSubSystemOK = "Propulsion Current OK";
-    public static final String PropulsionSwitchNotOff = "Propulsion switch not off";
-    public static final String PropulsionSwitchNotOn = "Propulsion switch not on";
 
     public String description;
-    private String sensorName;
-    private ConclusionType conclusionType;
-    private String subSystemName;
 
-    public Observation(String description, String sensorName) {
+    public Observation(String description) {
         super();
         this.description = description;
-        this.sensorName = sensorName;
-    }
-
-    public Observation(ConclusionType conclusionType, String subSystemName, String sensorName) {
-        super();
-        this.conclusionType = conclusionType;
-        this.subSystemName = subSystemName;
-        this.sensorName = sensorName;
     }
 }
