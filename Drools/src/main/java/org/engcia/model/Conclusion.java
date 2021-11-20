@@ -14,6 +14,11 @@ public class Conclusion {
     public static final String AOCSCurrentSubSystemOK = "AOCS Current OK";
     public static final String AOCSSwitchNotOff = "AOCS switch not off";
     public static final String AOCSSwitchNotOn = "AOCS switch not on";
+    public static final String AOCSLowCurrentError = "AOCS Low Current Error";
+    public static final String AOCSHighCurrentError = "AOCS High Current Error";
+    public static final String AOCSHighResistanceFailure = "AOCS High Resistance Failure";
+    public static final String AOCSLowResistanceFailure = "AOCS Low Resistance Failure";
+    public static final String AOCSRushFailure = "AOCS in rush error";
 
     public static final String PayloadThermalSensorError = "Payload Thermal Sensor Error: ";
     public static final String PayloadThermalSubSystemFailure = "Payload Thermal Full Failure";
@@ -26,6 +31,11 @@ public class Conclusion {
     public static final String PayloadCurrentSubSystemOK = "Payload Current OK";
     public static final String PayloadSwitchNotOff = "Payload switch not off";
     public static final String PayloadSwitchNotOn = "Payload switch not on";
+    public static final String PayloadLowCurrentError = "Payload Low Current Error";
+    public static final String PayloadHighCurrentError = "Payload High Current Error";
+    public static final String PayloadHighResistanceFailure = "Payload High Resistance Failure";
+    public static final String PayloadLowResistanceFailure = "Payload Low Resistance Failure";
+    public static final String PayloadRushFailure = "Payload in rush error";
 
     public static final String PowerThermalSensorError = "Power Module Thermal Sensor Error: ";
     public static final String PowerThermalSubSystemFailure = "Power Module Thermal Full Failure";
@@ -38,6 +48,11 @@ public class Conclusion {
     public static final String PowerCurrentSubSystemOK = "Power Current OK";
     public static final String PowerSwitchNotOff = "Power switch not off";
     public static final String PowerSwitchNotOn = "Power switch not on";
+    public static final String PowerLowCurrentError = "Power Low Current Error";
+    public static final String PowerHighCurrentError = "Power High Current Error";
+    public static final String PowerHighResistanceFailure = "Power High Resistance Failure";
+    public static final String PowerLowResistanceFailure = "Power Low Resistance Failure";
+    public static final String PowerRushFailure = "Power in rush error";
 
     public static final String OBCThermalSensorError = "OBC Thermal Sensor Error: ";
     public static final String OBCThermalSubSystemFailure = "OBC Thermal Full Failure";
@@ -50,6 +65,11 @@ public class Conclusion {
     public static final String OBCCurrentSubSystemOK = "OBC Current OK";
     public static final String OBCSwitchNotOff = "OBC switch not off";
     public static final String OBCSwitchNotOn = "OBC switch not on";
+    public static final String OBCLowCurrentError = "OBC Low Current Error";
+    public static final String OBCHighCurrentError = "OBC High Current Error";
+    public static final String OBCHighResistanceFailure = "OBC High Resistance Failure";
+    public static final String OBCLowResistanceFailure = "OBC Low Resistance Failure";
+    public static final String OBCRushFailure = "OBC in rush error";
 
     public static final String CommunicationThermalSensorError = "Communication Thermal Sensor Error: ";
     public static final String CommunicationThermalSubSystemFailure = "Communication Thermal Full Failure";
@@ -62,6 +82,11 @@ public class Conclusion {
     public static final String CommunicationCurrentSubSystemOK = "Communication Current OK";
     public static final String CommunicationSwitchNotOff = "Communication switch not off";
     public static final String CommunicationSwitchNotOn = "Communication switch not on";
+    public static final String CommunicationLowCurrentError = "Communication Low Current Error";
+    public static final String CommunicationHighCurrentError = "Communication High Current Error";
+    public static final String CommunicationHighResistanceFailure = "Communication High Resistance Failure";
+    public static final String CommunicationLowResistanceFailure = "Communication Low Resistance Failure";
+    public static final String CommunicationRushFailure = "Communication in rush error";
 
     public static final String ThermalControllerThermalSensorError = "Thermal Controller Thermal Sensor Error: ";
     public static final String ThermalControllerThermalSubSystemFailure = "Thermal Controller Thermal Full Failure";
@@ -74,6 +99,11 @@ public class Conclusion {
     public static final String ThermalControllerCurrentSubSystemOK = "Thermal Controller Current OK";
     public static final String ThermalControllerSwitchNotOff = "Thermal switch not off";
     public static final String ThermalControllerSwitchNotOn = "Thermal switch not on";
+    public static final String ThermalControllerLowCurrentError = "Thermal Low Current Error";
+    public static final String ThermalControllerHighCurrentError = "Thermal High Current Error";
+    public static final String ThermalControllerHighResistanceFailure = "Thermal High Resistance Failure";
+    public static final String ThermalControllerLowResistanceFailure = "Thermal Low Resistance Failure";
+    public static final String ThermalControllerRushFailure = "Thermal in rush error";
 
     public static final String PropulsionThermalSensorError = "Propulsion Thermal Sensor Error: ";
     public static final String PropulsionThermalSubSystemFailure = "Propulsion Thermal Full Failure";
@@ -86,6 +116,11 @@ public class Conclusion {
     public static final String PropulsionCurrentSubSystemOK = "Propulsion Current OK";
     public static final String PropulsionSwitchNotOff = "Propulsion switch not off";
     public static final String PropulsionSwitchNotOn = "Propulsion switch not on";
+    public static final String PropulsionLowCurrentError = "Propulsion Low Current Error";
+    public static final String PropulsionHighCurrentError = "Propulsion High Current Error";
+    public static final String PropulsionHighResistanceFailure = "Propulsion High Resistance Failure";
+    public static final String PropulsionLowResistanceFailure = "Propulsion Low Resistance Failure";
+    public static final String PropulsionRushFailure = "Propulsion in rush error";
 
     private String description;
     private String sensorName;

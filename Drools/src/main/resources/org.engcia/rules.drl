@@ -683,3 +683,354 @@ rule "Propulsion Switch Not Properly On"
         Conclusion c = new Conclusion(Conclusion.PropulsionSwitchNotOn, $sensorSwitch.getSubSystem());
 		insert(c);
 end
+
+//
+rule "AOCS Switch low current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "AOCS", type matches "Switch", value == 0)
+        Observation(description matches Observation.AOCSVoltageSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", value < 2))
+    then
+        Conclusion c = new Conclusion(Conclusion.AOCSLowCurrentError, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Payload Switch low current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Payload", type matches "Switch", value == 0)
+        Observation(description matches Observation.PayloadVoltageSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", value < 2))
+    then
+        Conclusion c = new Conclusion(Conclusion.PayloadLowCurrentError, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Power Switch low current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Power", type matches "Switch", value == 0)
+        Observation(description matches Observation.PowerVoltageSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", value < 2))
+    then
+        Conclusion c = new Conclusion(Conclusion.PowerLowCurrentError, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "OBC Switch low current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "OBC", type matches "Switch", value == 0)
+        Observation(description matches Observation.OBCVoltageSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", value < 2))
+    then
+        Conclusion c = new Conclusion(Conclusion.OBCLowCurrentError, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Communication Switch low current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Communication", type matches "Switch", value == 0)
+        Observation(description matches Observation.CommunicationVoltageSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", value < 2))
+    then
+        Conclusion c = new Conclusion(Conclusion.CommunicationLowCurrentError, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Thermal Switch low current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Thermal", type matches "Switch", value == 0)
+        Observation(description matches Observation.ThermalControllerVoltageSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal", type matches "Current", value < 2))
+    then
+        Conclusion c = new Conclusion(Conclusion.ThermalControllerLowCurrentError, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Propulsion Switch low current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Propulsion", type matches "Switch", value == 0)
+        Observation(description matches Observation.PropulsionVoltageSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", value < 2))
+    then
+        Conclusion c = new Conclusion(Conclusion.PropulsionLowCurrentError, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "AOCS Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "AOCS", type matches "Switch", value == 0)
+        Observation(description matches Observation.AOCSVoltageSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.AOCSHighCurrentError, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Payload Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Payload", type matches "Switch", value == 0)
+        Observation(description matches Observation.PayloadVoltageSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.PayloadHighCurrentError, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Power Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Power", type matches "Switch", value == 0)
+        Observation(description matches Observation.PowerVoltageSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.PowerHighCurrentError, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "OBC Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "OBC", type matches "Switch", value == 0)
+        Observation(description matches Observation.OBCVoltageSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.OBCHighCurrentError, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Communication Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Communication", type matches "Switch", value == 0)
+        Observation(description matches Observation.CommunicationVoltageSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.CommunicationHighCurrentError, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Thermal Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Thermal", type matches "Switch", value == 0)
+        Observation(description matches Observation.ThermalControllerVoltageSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.ThermalControllerHighCurrentError, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Propulsion Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Propulsion", type matches "Switch", value == 0)
+        Observation(description matches Observation.PropulsionVoltageSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.PropulsionHighCurrentError, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "AOCS Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "AOCS", type matches "Switch", value == 0)
+        Observation(description matches Observation.AOCSThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", value < 2))
+    then
+        Conclusion c = new Conclusion(Conclusion.AOCSLowResistanceFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Payload Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Payload", type matches "Switch", value == 0)
+        Observation(description matches Observation.PayloadThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", value < 2))
+    then
+        Conclusion c = new Conclusion(Conclusion.PayloadLowResistanceFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Power Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Power", type matches "Switch", value == 0)
+        Observation(description matches Observation.PowerThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", value < 2))
+    then
+        Conclusion c = new Conclusion(Conclusion.PowerLowResistanceFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "OBC Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "OBC", type matches "Switch", value == 0)
+        Observation(description matches Observation.OBCThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", value < 2))
+    then
+        Conclusion c = new Conclusion(Conclusion.OBCLowResistanceFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Communication Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Communication", type matches "Switch", value == 0)
+        Observation(description matches Observation.CommunicationThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", value < 2))
+    then
+        Conclusion c = new Conclusion(Conclusion.CommunicationHighResistanceFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Thermal Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Thermal", type matches "Switch", value == 0)
+        Observation(description matches Observation.ThermalControllerThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal", type matches "Current", value < 2))
+    then
+        Conclusion c = new Conclusion(Conclusion.ThermalControllerLowResistanceFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Propulsion Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Propulsion", type matches "Switch", value == 0)
+        Observation(description matches Observation.PropulsionThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", value < 2))
+    then
+        Conclusion c = new Conclusion(Conclusion.PropulsionLowResistanceFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "AOCS Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "AOCS", type matches "Switch", value == 0)
+        Observation(description matches Observation.AOCSThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.AOCSHighResistanceFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Payload Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Payload", type matches "Switch", value == 0)
+        Observation(description matches Observation.PayloadThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.PayloadHighResistanceFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Power Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Power", type matches "Switch", value == 0)
+        Observation(description matches Observation.PowerThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.PowerHighResistanceFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "OBC Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "OBC", type matches "Switch", value == 0)
+        Observation(description matches Observation.OBCThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.OBCHighResistanceFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Communication Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Communication", type matches "Switch", value == 0)
+        Observation(description matches Observation.CommunicationThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.CommunicationHighResistanceFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Thermal Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Thermal", type matches "Switch", value == 0)
+        Observation(description matches Observation.ThermalControllerThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.ThermalControllerHighResistanceFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Propulsion Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Propulsion", type matches "Switch", value == 0)
+        Observation(description matches Observation.PropulsionThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.PropulsionHighResistanceFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "AOCS Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "AOCS", type matches "Switch", value == 0)
+        Observation(description matches Observation.AOCSThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.AOCSRushFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Payload Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Payload", type matches "Switch", value == 0)
+        Observation(description matches Observation.PayloadThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.PayloadRushFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Power Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Power", type matches "Switch", value == 0)
+        Observation(description matches Observation.PowerThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.PowerRushFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "OBC Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "OBC", type matches "Switch", value == 0)
+        Observation(description matches Observation.OBCThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.OBCRushFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Communication Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Communication", type matches "Switch", value == 0)
+        Observation(description matches Observation.CommunicationThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.CommunicationRushFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Thermal Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Thermal", type matches "Switch", value == 0)
+        Observation(description matches Observation.ThermalControllerThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.ThermalControllerRushFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
+
+rule "Propulsion Switch high current error"
+    when
+        $sensorSwitch : Sensor(subSystem matches "Propulsion", type matches "Switch", value == 0)
+        Observation(description matches Observation.PropulsionThermalSubSystemOK)
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", value > 5))
+    then
+        Conclusion c = new Conclusion(Conclusion.PropulsionRushFailure, $sensorSwitch.getSubSystem());
+		insert(c);
+end
