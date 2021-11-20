@@ -71,6 +71,10 @@ public class Observation {
     public static final String PropulsionCurrentSubSystemFailure = "Propulsion Current Full Failure";
     public static final String PropulsionCurrentSubSystemOK = "Propulsion Current OK";
 
+    public static final String  ReactionWheelsOn = "Reaction Wheels On";
+    public static final String  ReactionWheelsOff = "Reaction Wheels Off";
+    public static final String  ThrustersOn = "Thrusters Off";
+
     public String description;
 
     public Observation(String description) {

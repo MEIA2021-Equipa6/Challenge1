@@ -122,6 +122,12 @@ public class Conclusion {
     public static final String PropulsionLowResistanceFailure = "Propulsion Low Resistance Failure";
     public static final String PropulsionRushFailure = "Propulsion in rush error";
 
+    //Higher Level Conclusions
+    public static final String PowerModuleEnergyGenerationFail = "Power Module Can't Provide Enough Energy";
+    public static final String ThrustersNotOff = "Thrusters aren't off while Reaction wheels are working";
+    public static final String AllReactionWheelsNotOn = "Not all Reaction Wheels turned On";
+    public static final String GPSAndStarTrackSimultaneous = "GPS and Star Tracker can't Operate same time";
+
     private String description;
     private String sensorName;
     private ConclusionType conclusionType;

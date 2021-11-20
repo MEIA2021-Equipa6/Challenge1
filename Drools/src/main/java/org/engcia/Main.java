@@ -54,7 +54,7 @@ public class Main {
 
     //TODO: Remove this method
     public static void testMethod(){
-        Sensor sensor1 = new Sensor("AOCS", "Thermal", 1, 50);
+        Sensor sensor1 = new Sensor("AOCS", "Thermal", 1, 10);
         Sensor sensor2 = new Sensor("AOCS", "Voltage", 1, 30);
         Sensor sensor3 = new Sensor("AOCS", "Thermal", 2, 50);
         Sensor sensor4 = new Sensor("AOCS", "Voltage", 2, 29);
