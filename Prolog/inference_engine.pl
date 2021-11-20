@@ -23,7 +23,14 @@ load_kb:-
 start_engine:-
 	calculate_last_fact,
 	calculate_last_rule,
-	generate_metaknowledge([aocs_thermal(_,_), aocs_thermalFailure(_, _), aocs(_, _)]),
+	generate_metaknowledge([aocs_thermal(_,_), aocs_thermalFailure(_, _), aocs(_, _),
+		aocs_tension(_, _), aocs_tensionFailure(_, _), aocs_current(_, _), aocs_currentFailure(_, _),
+		aocs_switch(_, _), aocs_switchFailure(_, _), aocs_gyroscope(_, _), aocs_attitudeFailure(_, _), 
+		aocs_gps(_, _), aocs_gpsFailure(_, _), aocs_star_tracker(_, _), power_current_output(_, _), 
+		power_currentOutputFailure(_, _), power_battery_status(_, _), power_batteryFailure(_, _), 
+		power_batteryWarning(_, _), power_current_input(_, _), power_currentInputFailure(_, _), 
+		obc_battery_status(_, _)
+	]),
 	fact(N,Fact),
 	fact_triggers_rules1(Fact, LRules),
 	trigger_rules(N, Fact, LRules),
