@@ -1060,7 +1060,7 @@ rule "All Reaction Wheels On"
         Observation o = new Observation(Observation.ReactionWheelsOn);
 end
 
-rule "All Reaction Wheels On"
+rule "All Reaction Wheels Off"
     when
         $count : ArrayList(size == 4) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Reaction Wheel", value == 0))
     then
@@ -1074,7 +1074,7 @@ rule "Thrusters not Off during Reaction Wheels Operation"
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Thruster", value == 1))
     then
         Conclusion c = new Conclusion(Conclusion.ThrustersNotOff, "");
-        insert(c)
+        insert(c);
 end
 
 
@@ -1084,16 +1084,16 @@ rule "Reaction Wheels not Off during Thrusters Operation"
         $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Thruster", value == 1))
     then
         Conclusion c = new Conclusion(Conclusion.ThrustersNotOff, "");
-        insert(c)
+        insert(c);
 end
 
 rule "GPS and Star Tracker can't Operate same time"
     when
         $count : ArrayList(size  > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "GPS", value == 1))
-        $count : ArrayList(size  > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Star Tracker", value == 1))
+        $count1 : ArrayList(size  > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Star Tracker", value == 1))
     then
         Conclusion c = new Conclusion(Conclusion.GPSAndStarTrackSimultaneous, "");
-        insert(c)
+        insert(c);
 end
 
 rule "Power Module Failure"
@@ -1114,5 +1114,5 @@ rule "Power Module Failure"
         $count6 : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Voltage", value < 27))
     then
         Conclusion c = new Conclusion(Conclusion.PowerModuleEnergyGenerationFail, "");
-        insert(c)
+        insert(c);
 end
