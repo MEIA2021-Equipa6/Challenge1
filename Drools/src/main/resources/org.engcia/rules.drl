@@ -970,7 +970,7 @@ rule "Propulsion high current error"
 end
 
 // Tensao > 32 && Current > 5 && Observation(Voltage && Current Error)
-rule "AOCS high current error"
+rule "AOCS rush failure"
     when
         $sensorSwitch : Sensor(subSystem matches "AOCS", type matches "Switch", value == 1)
         Observation(description matches Observation.AOCSThermalSubSystemOK)
@@ -980,7 +980,7 @@ rule "AOCS high current error"
 		insert(c);
 end
 
-rule "Payload high current error"
+rule "Payload rush failure"
     when
         $sensorSwitch : Sensor(subSystem matches "Payload", type matches "Switch", value == 1)
         Observation(description matches Observation.PayloadThermalSubSystemOK)
@@ -990,7 +990,7 @@ rule "Payload high current error"
 		insert(c);
 end
 
-rule "Power high current error"
+rule "Power rush failure"
     when
         $sensorSwitch : Sensor(subSystem matches "Power", type matches "Switch", value == 1)
         Observation(description matches Observation.PowerThermalSubSystemOK)
@@ -1000,7 +1000,7 @@ rule "Power high current error"
 		insert(c);
 end
 
-rule "OBC high current error"
+rule "OBC rush failure"
     when
         $sensorSwitch : Sensor(subSystem matches "OBC", type matches "Switch", value == 1)
         Observation(description matches Observation.OBCThermalSubSystemOK)
@@ -1010,7 +1010,7 @@ rule "OBC high current error"
 		insert(c);
 end
 
-rule "Communication high current error"
+rule "Communication rush failure"
     when
         $sensorSwitch : Sensor(subSystem matches "Communication", type matches "Switch", value == 1)
         Observation(description matches Observation.CommunicationThermalSubSystemOK)
@@ -1020,7 +1020,7 @@ rule "Communication high current error"
 		insert(c);
 end
 
-rule "Thermal high current error"
+rule "Thermal rush failure"
     when
         $sensorSwitch : Sensor(subSystem matches "Thermal", type matches "Switch", value == 1)
         Observation(description matches Observation.ThermalControllerThermalSubSystemOK)
@@ -1030,7 +1030,7 @@ rule "Thermal high current error"
 		insert(c);
 end
 
-rule "Propulsion high current error"
+rule "Propulsion rush failure"
     when
         $sensorSwitch : Sensor(subSystem matches "Propulsion", type matches "Switch", value == 1)
         Observation(description matches Observation.PropulsionThermalSubSystemOK)
