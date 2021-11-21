@@ -4,11 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.engcia.model.Conclusion;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
+import org.engcia.model.Justification;
 import org.engcia.model.Sensor;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
@@ -16,13 +12,23 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.LiveQuery;
 import org.kie.api.runtime.rule.Row;
 import org.kie.api.runtime.rule.ViewChangedEventListener;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 public class Main {
+    public static KieSession KS;
+    public static TrackingAgendaEventListener agendaEventListener;
+    public static Map<Integer, Justification> justifications;
     static final Logger LOG = LoggerFactory.getLogger(Main.class);
-    public static List<Sensor> sensors = new ArrayList<Sensor>();
+    public static List<Sensor> sensors = new ArrayList<>();
 
     //private final static String FILE = "/home/cristiano/IdeaProjects/Challenge1/Drools/src/main/resources/file.json";
     private final static String FILE = "/home/cristiano/file.json";
@@ -44,7 +50,7 @@ public class Main {
         String json = getJsonFile();
         if(json != null){
             try {
-                sensors = mapper.readValue(json, new TypeReference<List<Sensor>>() {});
+                sensors = mapper.readValue(json, new TypeReference<>() {});
                 runEngine(sensors);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
@@ -82,7 +88,7 @@ public class Main {
     }
 
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         testMethod();
         /**while(true) {
             readSensorValuesFromFile();
@@ -92,10 +98,13 @@ public class Main {
 
     private static void runEngine(List<Sensor> sensors) {
         try {
+            Main.justifications = new TreeMap<>();
             // load up the knowledge base
             KieServices ks = KieServices.Factory.get();
             KieContainer kContainer = ks.getKieClasspathContainer();
             final KieSession kSession = kContainer.newKieSession("ksession-rules");
+            Main.KS = kSession;
+            Main.agendaEventListener = new TrackingAgendaEventListener();
             // session name defined in kmodule.xml"
 
             // Query listener
@@ -122,8 +131,8 @@ public class Main {
             };
             LiveQuery query = kSession.openLiveQuery("Conclusions", null, listener);
 
-            for (int i = 0; i < sensors.size(); i++) {
-                kSession.insert(sensors.get(i));
+            for (Sensor sensor : sensors) {
+                kSession.insert(sensor);
             }
 
 

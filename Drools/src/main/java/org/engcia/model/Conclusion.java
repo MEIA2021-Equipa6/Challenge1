@@ -2,7 +2,7 @@ package org.engcia.model;
 
 import java.text.MessageFormat;
 
-public class Conclusion {
+public class Conclusion extends Fact{
     public static final String AOCSThermalSensorError = "AOCS Thermal Sensor Error: ";
     public static final String AOCSThermalSubSystemFailure = "AOCS Thermal Full Failure";
     public static final String AOCSThermalSubSystemOK = "AOCS Thermal OK";
