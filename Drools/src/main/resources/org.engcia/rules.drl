@@ -826,6 +826,7 @@ rule "Propulsion high current error"
 end
 
 
+// Resistencia Alta -> Temperatura < -20 && Current < 2 && (ObservationThermalError && CurrentError)
 rule "AOCS high current error"
     when
         $sensorSwitch : Sensor(subSystem matches "AOCS", type matches "Switch", value == 1)
@@ -896,6 +897,8 @@ rule "Propulsion high current error"
 		insert(c);
 end
 
+
+//Low Resistence Temperatura > 30 || Current > 5  (ObservationTheremalError && CurrentError)
 rule "AOCS high current error"
     when
         $sensorSwitch : Sensor(subSystem matches "AOCS", type matches "Switch", value == 1)
@@ -966,6 +969,7 @@ rule "Propulsion high current error"
 		insert(c);
 end
 
+// Tensao > 32 && Current > 5 && Observation(Voltage && Current Error)
 rule "AOCS high current error"
     when
         $sensorSwitch : Sensor(subSystem matches "AOCS", type matches "Switch", value == 1)
@@ -1037,7 +1041,6 @@ rule "Propulsion high current error"
 end
 
 
-// On Hold -> Rules may Enter in Conflit -> Discuss
 rule "All Reaction Wheels not On"
     when
         $count : ArrayList(size < 4) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Reaction Wheel", value == 1))
