@@ -61,11 +61,11 @@ rule 15
 	then [create_fact(power_currentOutputFailure(main, incorrect_output_current))].
 
 rule 16
-	if [evaluate(power_battery_status(main,<,10))]
+	if [evaluate(power_battery_status(main,=<,10))]
 	then [create_fact(power_batteryFailure(main, extreme_low_battery))].
 
 rule 17
-	if [evaluate(power_battery_status(main,<,25))]
+	if [evaluate(power_battery_status(main,<,25)) and evaluate(power_battery_status(main,>,10))]
 	then [create_fact(power_batteryWarning(main, low_battery))].
 
 rule 18
@@ -73,37 +73,187 @@ rule 18
 	then [create_fact(power_currentInputFailure(main, incorrect_input_current))].
 
 rule 19
-	if [(power_current_output(main, current_output) and evaluate(power_current_input(main,>,current_output)))]
+	if [evaluate_fact_values(power_current_input(main,_),>,power_current_output(main,_))]
 	then [create_fact(obc_battery_status(main, charging))].
 
 rule 20
-	if [(power_current_output(main, current_output) and evaluate(power_current_input(main,<,current_output)))]
+	if [evaluate_fact_values(power_current_input(main,_),<,power_current_output(main,_))]
 	then [create_fact(obc_battery_status(main, discharging))].
 
 rule 21
-	if [power_current_output(main, current_output) and evaluate(power_current_input(main,=,current_output))]
+	if [evaluate_fact_values(power_current_input(main,_),==,power_current_output(main,_))]
 	then [create_fact(obc_battery_status(main, idle))].
 
 rule 23
-	if [obc_battery_status(main, charging) and evaluate(power_current_input(main,<=,0))]
+	if [obc_battery_status(main, charging) and evaluate(power_current_input(main,=<,0))]
 	then [create_fact(power_currentInputFailure(main, cant_charge_batteries))].
 
-fact(1,aocs_thermal(main, 56)).
-fact(2,aocs_thermal(red1, 55)).
-fact(3,aocs_thermal(red2, 72)).
+rule 24
+	if [aocs_reaction_wheel(_,1) and aocs_reaction_wheel(_,1) and aocs_reaction_wheel(_,1) and aocs_reaction_wheel(_,1) and aocs_thruster(_,1) ]
+	then [create_fact(aocs_navigationFailure(all, thruster_and_reaction_wheels_active_simultaneously))].
+
+rule 25
+	if [aocs_thruster(_,1) and aocs_thruster(_,1) and aocs_thruster(_,1) and aocs_thruster(_,1) and aocs_reaction_wheel(_,1)]
+	then [create_fact(aocs_navigationFailure(all, thruster_and_reaction_wheels_active_simultaneously))].
+
+rule 26
+	if [evaluate(power_thermal(main,<,-20)) or evaluate(power_thermal(main,>,50))]
+	then [create_fact(power_thermalFailure(main, incorrect_temperature))].
+
+rule 27
+	if [evaluate(power_tension(main,\==,28))]
+	then [create_fact(power_tensionFailure(all, incorrect_tension))].
+
+rule 28
+	if [evaluate(power_current(main,<,0)) or evaluate(power_current(main,>,2))]
+	then [create_fact(power_currentFailure(all, incorrect_current))].
+
+rule 29
+	if [power_switch(ID,0) and evaluate(power_tension(main,==,28)) and evaluate(power_current(main,>,0.1))]
+	then [create_fact(power_switchFailure(ID, switch_not_off_correctly))].
+
+rule 30
+	if [power_switch(main,1) and evaluate(power_tension(main,==,28)) and evaluate(power_current(main,<,1))]
+	then [create_fact(power_switchFailure(all, low_current))].
+
+rule 31
+	if [power_switch(main,1) and evaluate(power_tension(main,==,28)) and evaluate(power_current(main,>,2))]
+	then [create_fact(power_switchFailure(all, high_current))].
+
+rule 32
+	if [evaluate(payload_thermal(main,<,-20)) or evaluate(payload_thermal(main,>,30))]
+	then [create_fact(payload_thermalFailure(main, incorrect_temperature))].
+
+rule 33
+	if [evaluate(payload_tension(main,\==,28))]
+	then [create_fact(payload_tensionFailure(all, incorrect_tension))].
+
+rule 34
+	if [evaluate(payload_current(main,<,0)) or evaluate(payload_current(main,>,2))]
+	then [create_fact(payload_currentFailure(all, incorrect_current))].
+
+rule 35
+	if [payload_switch(ID,0) and evaluate(payload_tension(main,==,28)) and evaluate(payload_current(main,>,0.1))]
+	then [create_fact(payload_switchFailure(ID, switch_not_off_correctly))].
+
+rule 36
+	if [payload_switch(main,1) and evaluate(payload_tension(main,==,28)) and evaluate(payload_current(main,<,1))]
+	then [create_fact(payload_switchFailure(all, low_current))].
+
+rule 37
+	if [payload_switch(main,1) and evaluate(payload_tension(main,==,28)) and evaluate(payload_current(main,>,2))]
+	then [create_fact(payload_switchFailure(all, high_current))].
+
+rule 38
+	if [evaluate(payload_thermal(main,<,-20)) or evaluate(payload_thermal(main,>,30))]
+	then [create_fact(payload_thermalFailure(main, incorrect_temperature))].
+
+rule 39
+	if [evaluate(communication_tension(main,\==,28))]
+	then [create_fact(communication_tensionFailure(all, incorrect_tension))].
+
+rule 40
+	if [evaluate(communication_current(main,<,0)) or evaluate(communication_current(main,>,2))]
+	then [create_fact(communication_currentFailure(all, incorrect_current))].
+
+rule 41
+	if [communication_switch(ID,0) and evaluate(communication_tension(main,==,28)) and evaluate(communication_current(main,>,0.1))]
+	then [create_fact(communication_switchFailure(ID, switch_not_off_correctly))].
+
+rule 42
+	if [communication_switch(main,1) and evaluate(communication_tension(main,==,28)) and evaluate(communication_current(main,<,1))]
+	then [create_fact(communication_switchFailure(all, low_current))].
+
+rule 43
+	if [communication_switch(main,1) and evaluate(communication_tension(main,==,28)) and evaluate(communication_current(main,>,2))]
+	then [create_fact(communication_switchFailure(all, high_current))].
+
+rule 44
+	if [evaluate(communication_thermal(main,<,-20)) or evaluate(communication_thermal(main,>,30))]
+	then [create_fact(communication_thermalFailure(main, incorrect_temperature))].
+
+rule 45
+	if [evaluate(obc_tension(main,\==,28))]
+	then [create_fact(obc_tensionFailure(all, incorrect_tension))].
+
+rule 46
+	if [evaluate(obc_current(main,<,0)) or evaluate(obc_current(main,>,2))]
+	then [create_fact(obc_currentFailure(all, incorrect_current))].
+
+rule 47
+	if [obc_switch(ID,0) and evaluate(obc_tension(main,==,28)) and evaluate(obc_current(main,>,0.1))]
+	then [create_fact(obc_switchFailure(ID, switch_not_off_correctly))].
+
+rule 48
+	if [obc_switch(main,1) and evaluate(obc_tension(main,==,28)) and evaluate(obc_current(main,<,1))]
+	then [create_fact(obc_switchFailure(all, low_current))].
+
+rule 49
+	if [obc_switch(main,1) and evaluate(obc_tension(main,==,28)) and evaluate(obc_current(main,>,2))]
+	then [create_fact(obc_switchFailure(all, high_current))].
+
+rule 50
+	if [evaluate(obc_thermal(main,<,-20)) or evaluate(obc_thermal(main,>,30))]
+	then [create_fact(obc_thermalFailure(main, incorrect_temperature))].
+
+rule 51
+	if [evaluate(obc_ground_connection(main,\==,1))]
+	then [create_fact(communication_groundConnectionFailure(all, cant_connect_to_ground))].
+
+rule 52
+	if [power_thermalFailure(all, _) or power_switchFailure(all,_) or power_currentFailure(all,_) or power_tensionFailure(all,_) or power_currentInputFailure(_,_) or power_currentOutputFailure(_,_), power_batteryFailure(_,_)]
+	then [create_fact(power(all, failure))].
+
+rule 53
+	if [payload_thermalFailure(all, _) or payload_switchFailure(all,_) or payload_currentFailure(all,_) or payload_tensionFailure(all,_)]
+	then [create_fact(payload(all, failure))].
+
+rule 54
+	if [obc_thermalFailure(all, _) or obc_switchFailure(all,_) or obc_currentFailure(all,_) or obc_tensionFailure(all,_)]
+	then [create_fact(obc(all, failure))].
+
+
+
+fact(1,aocs_thermal(main, 20)).
+fact(2,aocs_thermal(red1, 20)).
+fact(3,aocs_thermal(red2, 20)).
 fact(4,aocs_switch(main, 0)).
 fact(5,aocs_tension(main, 28)).
 fact(6,aocs_tension(red1, 28)).
 fact(7,aocs_tension(red2, 28)).
-fact(8,aocs_current(main, 3)).
-fact(9,aocs_current(red1, 3)).
-fact(10,aocs_current(red2, 3)).
+fact(8,aocs_current(main, 0.1)).
+fact(9,aocs_current(red1, 0.1)).
+fact(10,aocs_current(red2, 0.1)).
 fact(11,aocs_gyroscope(main, detumbling)).
-fact(12,aocs_gps(main, 1)).
+fact(12,aocs_gps(main, 0)).
 fact(13,aocs_gps(red1, 0)).
 fact(14,aocs_star_tracker(main, 1)).
-fact(15,aocs_star_tracker(red1, 1)).
-fact(16,power_current_output(main, 5)).
-fact(17,power_current_input(main, 10)).
-fact(18,power_battery_status(main, 50)).
-fact(19,obc_battery_status(main, idle)).
+fact(15,aocs_star_tracker(red1, 0)).
+fact(16,aocs_thruster(t1,1)).
+fact(17,aocs_thruster(t2,1)).
+fact(18,aocs_thruster(t3,1)).
+fact(19,aocs_thruster(t4,1)).
+fact(20,aocs_reaction_wheel(rw1,0)).
+fact(21,aocs_reaction_wheel(rw2,0)).
+fact(22,aocs_reaction_wheel(rw3,0)).
+fact(23,aocs_reaction_wheel(rw4,0)).
+fact(24,power_current_output(main, 11)).
+fact(25,power_current_input(main, 10)).
+fact(26,power_battery_status(main, 9)).
+fact(27,power_thermal(main, 49)).
+fact(28,power_switch(main, 1)).
+fact(29,power_tension(main, 28)).
+fact(30,power_current(main, 2)).
+fact(31,payload_thermal(main, 10)).
+fact(32,payload_switch(main, 0)).
+fact(33,payload_tension(main, 28)).
+fact(34,payload_current(main, 0)).
+fact(35,communication_thermal(main, 20)).
+fact(36,communication_switch(main, 1)).
+fact(37,communication_tension(main, 28)).
+fact(38,communication_current(main, 2)).
+fact(39,obc_thermal(main, 15)).
+fact(40,obc_switch(main, 1)).
+fact(41,obc_tension(main, 28)).
+fact(42,obc_current(main, 2)).
+fact(43,obc_ground_connection(main, 0)).
