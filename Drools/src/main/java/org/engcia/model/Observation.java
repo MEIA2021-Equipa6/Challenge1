@@ -1,6 +1,8 @@
 package org.engcia.model;
 
-public class Observation {
+import org.engcia.Main;
+
+public class Observation extends Fact{
     public static final String AOCSThermalSensorError = "AOCS Thermal Sensor Error: ";
     public static final String AOCSThermalSubSystemFailure = "AOCS Thermal Full Failure";
     public static final String AOCSThermalSubSystemOK = "AOCS Thermal OK";
@@ -73,12 +75,17 @@ public class Observation {
 
     public static final String  ReactionWheelsOn = "Reaction Wheels On";
     public static final String  ReactionWheelsOff = "Reaction Wheels Off";
-    public static final String  ThrustersOn = "Thrusters Off";
 
     public String description;
 
     public Observation(String description) {
-        super();
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Observation{" +
+                "description='" + description + '\'' +
+                '}';
     }
 }

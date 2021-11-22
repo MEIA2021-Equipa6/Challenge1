@@ -1,14 +1,9 @@
-package org.engcia;
-
-import org.engcia.model.Conclusion;
-import org.engcia.model.Fact;
-import org.engcia.model.Hypothesis;
-import org.engcia.model.Justification;
+package org.engcia.model;
 
 import java.util.Map;
 
 public class How {
-    private Map<Integer, Justification> justifications;
+    private final Map<Integer, Justification> justifications;
 
     public How(Map<Integer, Justification> justifications) {
         this.justifications = justifications;
@@ -22,13 +17,13 @@ public class How {
         StringBuilder sb = new StringBuilder();
         Justification j = justifications.get(factNumber);
         if (j != null) { // justification for Fact factNumber was found
-            sb.append(getIdentation(level));
-            sb.append(j.getConclusion() + " was obtained by rule " + j.getRuleName() + " because");
+            sb.append(getIndentation(level));
+            sb.append(j.getConclusion()).append(" was obtained by rule ").append(j.getRuleName()).append(" because");
             sb.append('\n');
             int l = level + 1;
             for (Fact f : j.getLhs()) {
-                sb.append(getIdentation(l));
-                sb.append(f);
+                sb.append(getIndentation(l));
+                sb.append(f.toString());
                 sb.append('\n');
                 if (f instanceof Conclusion) {
                     String s = getHowExplanation(f.getId(), l + 1);
@@ -40,11 +35,7 @@ public class How {
         return sb.toString();
     }
 
-    private String getIdentation(int level) {
-        StringBuilder sb = new StringBuilder();
-        for(int i=0; i < level; i++) {
-            sb.append('\t');
-        }
-        return sb.toString();
+    private String getIndentation(int level) {
+        return "\t".repeat(Math.max(0, level));
     }
 }

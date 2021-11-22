@@ -3,9 +3,7 @@ package org.engcia;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.engcia.model.Conclusion;
-import org.engcia.model.Justification;
-import org.engcia.model.Sensor;
+import org.engcia.model.*;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -105,6 +103,7 @@ public class Main {
             final KieSession kSession = kContainer.newKieSession("ksession-rules");
             Main.KS = kSession;
             Main.agendaEventListener = new TrackingAgendaEventListener();
+            kSession.addEventListener(agendaEventListener);
             // session name defined in kmodule.xml"
 
             // Query listener
@@ -119,6 +118,9 @@ public class Main {
                     //System.out.println(">>>" + conclusion.toString());
                     LOG.info(">>>" + conclusion.toString());
 
+
+                    How how = new How(Main.justifications);
+                    System.out.println(how.getHowExplanation(conclusion.getId()));
                     // stop inference engine after as soon as got a conclusion
                    // kSession.halt();
 

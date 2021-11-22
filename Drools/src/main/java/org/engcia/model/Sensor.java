@@ -1,6 +1,6 @@
 package org.engcia.model;
 
-public class Sensor {
+public class Sensor extends Fact {
 
     private String subSystem;
     private String type;
@@ -53,5 +53,17 @@ public class Sensor {
 
     public void setValue(double value) {
         this.value = value;
+    }
+
+    @Override
+    public String
+
+    toString() {
+        return "Sensor{" +
+                "subSystem='" + subSystem + '\'' +
+                ", type='" + type + '\'' +
+                ", number=" + number +
+                ", value=" + value +
+                '}';
     }
 }
