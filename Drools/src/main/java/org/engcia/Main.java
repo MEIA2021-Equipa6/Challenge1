@@ -29,7 +29,7 @@ public class Main {
     public static List<Sensor> sensors = new ArrayList<>();
 
     //private final static String FILE = "/home/cristiano/IdeaProjects/Challenge1/Drools/src/main/resources/file.json";
-    private final static String FILE = "/home/cristiano/file.json";
+    private final static String FILE = "C:\\Users\\darkj\\Documents\\GitHub\\Challenge1\\Drools\\src\\main\\resources\\file.json";
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static String getJsonFile(){
@@ -86,12 +86,9 @@ public class Main {
     }
 
 
-    public static void main(String[] args) {
-        testMethod();
-        /**while(true) {
-            readSensorValuesFromFile();
-            Thread.sleep(5000);
-        }*/
+    public static void main(String[] args) throws InterruptedException {
+       // testMethod();
+        readSensorValuesFromFile();
     }
 
     private static void runEngine(List<Sensor> sensors) {
