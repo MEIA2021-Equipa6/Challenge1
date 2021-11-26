@@ -2,7 +2,7 @@ package org.engcia.model;
 
 import org.engcia.Main;
 
-import java.text.MessageFormat;
+import java.util.List;
 
 public class Conclusion extends Fact{
     public static final String AOCSSwitchNotOff = "AOCS switch not off";
@@ -67,15 +67,39 @@ public class Conclusion extends Fact{
     public static final String AllReactionWheelsNotOn = "Not all Reaction Wheels turned On";
     public static final String GPSAndStarTrackSimultaneous = "GPS and Star Tracker can't Operate same time";
 
-    private String description;
+    public static final String TurnOnSwitch = "Execute the command to turn On the Switch";
+    public static final String TurnOffSwitch = "Execute the command to turn Off the Switch";
+    public static final String DivertEnergyOutput = "Divert the energy from modules idle modules";
+    public static final String ReduceEnergyOutput = "Reduce the energy output to this module";
+    public static final String DivertSolarPanel = "Divert the Solar Panels to the Sun to increase the generated Energy";
+    public static final String DivertToBatteries = "Divert excess energy to batteries";
+    public static final String ReplaceRedundantSystem = "System might be Degraded. Switching to redundant subsystem";
+    public static final String RushDetected = "Energy rush detected. Generated Output when switching On adjusted";
+    public static final String ThrustersOn = "Thrusters cannot work while reaction wheels are operating";
+    public static final String WheelsOn = "Reaction wheels cannot work while Thrusters are operating";
+    public static final String STGPSOn = "Star Tracker and GPS cannot operate simultaneously";
+    public static final String PowerModuleFullFailure = "Power Module cannot feed enough energy to the Satellite. Waiting for Ground Input...";
 
-    public Conclusion(String description) {
+    private String description;
+    private List<Sensor> list;
+    private String correction;
+
+    public Conclusion(String description, List<Sensor> list, String correction){
         this.description = description;
+        this.list = list;
+        this.correction = correction;
         Main.agendaEventListener.addRhs(this);
     }
 
     public String toString() {
-        return "Diagnosis: " + description;
+        return description;
     }
 
+    public String getList() {
+        return list.toString();
+    }
+
+    public String getCorrection(){
+        return this.correction;
+    }
 }

@@ -12,4 +12,12 @@ public class Fact {
     public int getId() {
         return this.id;
     }
+
+    public String getList() {
+        return "";
+    }
+
+    public String getCorrection() {
+        return "";
+    }
 }

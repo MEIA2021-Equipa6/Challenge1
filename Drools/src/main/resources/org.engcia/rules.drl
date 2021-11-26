@@ -20,7 +20,8 @@ package org.engcia;
 import org.engcia.model.Sensor;
 import org.engcia.model.Conclusion;
 import org.engcia.model.Observation;
-import java.util.ArrayList;
+import java.util.ArrayList
+import java.util.List;
 
 //declare any global variables here
 
@@ -548,9 +549,9 @@ rule "AOCS Switch Not Properly Off"
     when
         Observation(description matches Observation.AOCSVoltageSubSystemOK)
         $sensorSwitch : Sensor(subSystem matches "AOCS", type matches "Switch", value == 0)
-        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", (value < 0.1 || value > 0.0)))
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", (value < 5 || value > 2)))
     then
-        Conclusion c = new Conclusion(Conclusion.AOCSSwitchNotOff);
+        Conclusion c = new Conclusion(Conclusion.AOCSSwitchNotOff, $count, Conclusion.TurnOffSwitch);
 		insert(c);
 end
 
@@ -558,9 +559,9 @@ rule "AOCS Switch Not Properly On"
     when
         Observation(description matches Observation.AOCSVoltageSubSystemOK)
         $sensorSwitch : Sensor(subSystem matches "AOCS", type matches "Switch", value == 1)
-        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", (value < 5 || value > 2)))
+        $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", (value < 0.1 || value > 0.0)))
     then
-        Conclusion c = new Conclusion(Conclusion.AOCSSwitchNotOn);
+        Conclusion c = new Conclusion(Conclusion.AOCSSwitchNotOn, $count, Conclusion.TurnOnSwitch);
 		insert(c);
 end
 
@@ -570,7 +571,7 @@ rule "Payload Switch Not Properly Off"
         $sensorSwitch : Sensor(subSystem matches "Payload", type matches "Switch", value == 0)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", (value < 0.1 || value > 0.0)))
     then
-        Conclusion c = new Conclusion(Conclusion.PayloadSwitchNotOff);
+        Conclusion c = new Conclusion(Conclusion.PayloadSwitchNotOff, $count, Conclusion.TurnOffSwitch);
 		insert(c);
 end
 
@@ -580,7 +581,7 @@ rule "Payload Switch Not Properly On"
         $sensorSwitch : Sensor(subSystem matches "Payload", type matches "Switch", value == 1)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", (value < 5 || value > 2)))
     then
-        Conclusion c = new Conclusion(Conclusion.PayloadSwitchNotOn);
+        Conclusion c = new Conclusion(Conclusion.PayloadSwitchNotOn,$count, Conclusion.TurnOnSwitch);
 		insert(c);
 end
 
@@ -590,7 +591,7 @@ rule "Power Switch Not Properly Off"
         $sensorSwitch : Sensor(subSystem matches "Power", type matches "Switch", value == 0)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", (value < 0.1 || value > 0.0)))
     then
-        Conclusion c = new Conclusion(Conclusion.PowerSwitchNotOff);
+        Conclusion c = new Conclusion(Conclusion.PowerSwitchNotOff, $count, Conclusion.TurnOffSwitch);
 end
 
 rule "Power Switch Not Properly On"
@@ -599,7 +600,7 @@ rule "Power Switch Not Properly On"
         $sensorSwitch : Sensor(subSystem matches "Power", type matches "Switch", value == 1)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", (value < 5 || value > 2)))
     then
-        Conclusion c = new Conclusion(Conclusion.PowerSwitchNotOn);
+        Conclusion c = new Conclusion(Conclusion.PowerSwitchNotOn, $count, Conclusion.TurnOnSwitch);
 		insert(c);
 end
 
@@ -609,7 +610,7 @@ rule "OBC Switch Not Properly Off"
         $sensorSwitch : Sensor(subSystem matches "OBC", type matches "Switch", value == 0)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", (value < 0.1 || value > 0.0)))
     then
-        Conclusion c = new Conclusion(Conclusion.OBCSwitchNotOff);
+        Conclusion c = new Conclusion(Conclusion.OBCSwitchNotOff, $count, Conclusion.TurnOffSwitch);
 		insert(c);
 end
 
@@ -619,7 +620,7 @@ rule "OBC Switch Not Properly On"
         $sensorSwitch : Sensor(subSystem matches "OBC", type matches "Switch", value == 1)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", (value < 5 || value > 2)))
     then
-        Conclusion c = new Conclusion(Conclusion.OBCSwitchNotOn);
+        Conclusion c = new Conclusion(Conclusion.OBCSwitchNotOn, $count, Conclusion.TurnOnSwitch);
 		insert(c);
 end
 
@@ -629,7 +630,7 @@ rule "Communication Switch Not Properly Off"
         $sensorSwitch : Sensor(subSystem matches "Power", type matches "Communication", value == 0)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", (value < 0.1 || value > 0.0)))
     then
-        Conclusion c = new Conclusion(Conclusion.CommunicationSwitchNotOff);
+        Conclusion c = new Conclusion(Conclusion.CommunicationSwitchNotOff, $count, Conclusion.TurnOffSwitch);
 		insert(c);
 end
 
@@ -639,7 +640,7 @@ rule "Communication Switch Not Properly On"
         $sensorSwitch : Sensor(subSystem matches "Communication", type matches "Switch", value == 1)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", (value < 5 || value > 2)))
     then
-        Conclusion c = new Conclusion(Conclusion.CommunicationSwitchNotOn);
+        Conclusion c = new Conclusion(Conclusion.CommunicationSwitchNotOn, $count, Conclusion.TurnOnSwitch);
 		insert(c);
 end
 
@@ -649,7 +650,7 @@ rule "Thermal Controller Switch Not Properly Off"
         $sensorSwitch : Sensor(subSystem matches "Thermal Controller", type matches "Switch", value == 0)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Current", (value < 0.1 || value > 0.0)))
     then
-        Conclusion c = new Conclusion(Conclusion.ThermalControllerSwitchNotOff);
+        Conclusion c = new Conclusion(Conclusion.ThermalControllerSwitchNotOff, $count, Conclusion.TurnOffSwitch);
 		insert(c);
 end
 
@@ -659,7 +660,7 @@ rule "Thermal Controller Switch Not Properly On"
         $sensorSwitch : Sensor(subSystem matches "Thermal Controller", type matches "Switch", value == 1)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal Controller", type matches "Current", (value < 5 || value > 2)))
     then
-        Conclusion c = new Conclusion(Conclusion.ThermalControllerSwitchNotOn);
+        Conclusion c = new Conclusion(Conclusion.ThermalControllerSwitchNotOn, $count, Conclusion.TurnOnSwitch);
 		insert(c);
 end
 
@@ -669,7 +670,7 @@ rule "Propulsion Switch Not Properly Off"
         $sensorSwitch : Sensor(subSystem matches "Propulsion", type matches "Switch", value == 0)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", (value < 0.1 || value > 0.0)))
     then
-        Conclusion c = new Conclusion(Conclusion.PropulsionSwitchNotOff);
+        Conclusion c = new Conclusion(Conclusion.PropulsionSwitchNotOff, $count, Conclusion.TurnOffSwitch);
 		insert(c);
 end
 
@@ -679,7 +680,7 @@ rule "Propulsion Switch Not Properly On"
         $sensorSwitch : Sensor(subSystem matches "Propulsion", type matches "Switch", value == 1)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", (value < 5 || value > 2)))
     then
-        Conclusion c = new Conclusion(Conclusion.PropulsionSwitchNotOn);
+        Conclusion c = new Conclusion(Conclusion.PropulsionSwitchNotOn, $count, Conclusion.TurnOnSwitch);
 		insert(c);
 end
 
@@ -690,7 +691,7 @@ rule "AOCS low current error"
         Observation(description matches Observation.AOCSVoltageSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", value < 2))
     then
-        Conclusion c = new Conclusion(Conclusion.AOCSLowCurrentError);
+        Conclusion c = new Conclusion(Conclusion.AOCSLowCurrentError, $count, Conclusion.DivertEnergyOutput);
 		insert(c);
 end
 
@@ -700,7 +701,7 @@ rule "Payload low current error"
         Observation(description matches Observation.PayloadVoltageSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", value < 2))
     then
-        Conclusion c = new Conclusion(Conclusion.PayloadLowCurrentError);
+        Conclusion c = new Conclusion(Conclusion.PayloadLowCurrentError, $count, Conclusion.DivertEnergyOutput);
 		insert(c);
 end
 
@@ -710,7 +711,7 @@ rule "Power low current error"
         Observation(description matches Observation.PowerVoltageSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", value < 2))
     then
-        Conclusion c = new Conclusion(Conclusion.PowerLowCurrentError);
+        Conclusion c = new Conclusion(Conclusion.PowerLowCurrentError, $count, Conclusion.DivertSolarPanel);
 		insert(c);
 end
 
@@ -720,7 +721,7 @@ rule "OBC low current error"
         Observation(description matches Observation.OBCVoltageSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", value < 2))
     then
-        Conclusion c = new Conclusion(Conclusion.OBCLowCurrentError);
+        Conclusion c = new Conclusion(Conclusion.OBCLowCurrentError, $count, Conclusion.DivertEnergyOutput);
 		insert(c);
 end
 
@@ -730,7 +731,7 @@ rule "Communication low current error"
         Observation(description matches Observation.CommunicationVoltageSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", value < 2))
     then
-        Conclusion c = new Conclusion(Conclusion.CommunicationLowCurrentError);
+        Conclusion c = new Conclusion(Conclusion.CommunicationLowCurrentError, $count, Conclusion.DivertEnergyOutput);
 		insert(c);
 end
 
@@ -740,7 +741,7 @@ rule "Thermal low current error"
         Observation(description matches Observation.ThermalControllerVoltageSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal", type matches "Current", value < 2))
     then
-        Conclusion c = new Conclusion(Conclusion.ThermalControllerLowCurrentError);
+        Conclusion c = new Conclusion(Conclusion.ThermalControllerLowCurrentError, $count, Conclusion.DivertEnergyOutput);
 		insert(c);
 end
 
@@ -750,7 +751,7 @@ rule "Propulsion low current error"
         Observation(description matches Observation.PropulsionVoltageSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", value < 2))
     then
-        Conclusion c = new Conclusion(Conclusion.PropulsionLowCurrentError);
+        Conclusion c = new Conclusion(Conclusion.PropulsionLowCurrentError, $count, Conclusion.DivertEnergyOutput);
 		insert(c);
 end
 
@@ -760,7 +761,7 @@ rule "AOCS high current error"
         Observation(description matches Observation.AOCSVoltageSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.AOCSHighCurrentError);
+        Conclusion c = new Conclusion(Conclusion.AOCSHighCurrentError, $count, Conclusion.ReduceEnergyOutput);
 		insert(c);
 end
 
@@ -770,7 +771,7 @@ rule "Payload high current error"
         Observation(description matches Observation.PayloadVoltageSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.PayloadHighCurrentError);
+        Conclusion c = new Conclusion(Conclusion.PayloadHighCurrentError, $count, Conclusion.ReduceEnergyOutput);
 		insert(c);
 end
 
@@ -780,7 +781,7 @@ rule "Power high current error"
         Observation(description matches Observation.PowerVoltageSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.PowerHighCurrentError);
+        Conclusion c = new Conclusion(Conclusion.PowerHighCurrentError, $count, Conclusion.DivertToBatteries);
 		insert(c);
 end
 
@@ -790,7 +791,7 @@ rule "OBC high current error"
         Observation(description matches Observation.OBCVoltageSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.OBCHighCurrentError);
+        Conclusion c = new Conclusion(Conclusion.OBCHighCurrentError, $count, Conclusion.ReduceEnergyOutput);
 		insert(c);
 end
 
@@ -800,7 +801,7 @@ rule "Communication high current error"
         Observation(description matches Observation.CommunicationVoltageSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.CommunicationHighCurrentError);
+        Conclusion c = new Conclusion(Conclusion.CommunicationHighCurrentError, $count, Conclusion.ReduceEnergyOutput);
 		insert(c);
 end
 
@@ -810,7 +811,7 @@ rule "Thermal high current error"
         Observation(description matches Observation.ThermalControllerVoltageSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.ThermalControllerHighCurrentError);
+        Conclusion c = new Conclusion(Conclusion.ThermalControllerHighCurrentError, $count, Conclusion.ReduceEnergyOutput);
 		insert(c);
 end
 
@@ -820,7 +821,7 @@ rule "Propulsion high current error"
         Observation(description matches Observation.PropulsionVoltageSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.PropulsionHighCurrentError);
+        Conclusion c = new Conclusion(Conclusion.PropulsionHighCurrentError, $count, Conclusion.ReduceEnergyOutput);
 		insert(c);
 end
 
@@ -832,7 +833,7 @@ rule "AOCS low Resistance error"
         Observation(description matches Observation.AOCSThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", value < 2))
     then
-        Conclusion c = new Conclusion(Conclusion.AOCSLowResistanceFailure);
+        Conclusion c = new Conclusion(Conclusion.AOCSLowResistanceFailure, $count, Conclusion.ReplaceRedundantSystem);
 		insert(c);
 end
 
@@ -842,7 +843,7 @@ rule "Payload low Resistance error"
         Observation(description matches Observation.PayloadThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", value < 2))
     then
-        Conclusion c = new Conclusion(Conclusion.PayloadLowResistanceFailure);
+        Conclusion c = new Conclusion(Conclusion.PayloadLowResistanceFailure, $count, Conclusion.ReplaceRedundantSystem);
 		insert(c);
 end
 
@@ -852,7 +853,7 @@ rule "Power low Resistance error"
         Observation(description matches Observation.PowerThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", value < 2))
     then
-        Conclusion c = new Conclusion(Conclusion.PowerLowResistanceFailure);
+        Conclusion c = new Conclusion(Conclusion.PowerLowResistanceFailure, $count, Conclusion.ReplaceRedundantSystem);
 		insert(c);
 end
 
@@ -862,7 +863,7 @@ rule "OBC low Resistance error"
         Observation(description matches Observation.OBCThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", value < 2))
     then
-        Conclusion c = new Conclusion(Conclusion.OBCLowResistanceFailure);
+        Conclusion c = new Conclusion(Conclusion.OBCLowResistanceFailure, $count, Conclusion.ReplaceRedundantSystem);
 		insert(c);
 end
 
@@ -872,7 +873,7 @@ rule "Communication low Resistance error"
         Observation(description matches Observation.CommunicationThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", value < 2))
     then
-        Conclusion c = new Conclusion(Conclusion.CommunicationLowResistanceFailure);
+        Conclusion c = new Conclusion(Conclusion.CommunicationLowResistanceFailure, $count, Conclusion.ReplaceRedundantSystem);
 		insert(c);
 end
 
@@ -882,7 +883,7 @@ rule "Thermal low Resistance error"
         Observation(description matches Observation.ThermalControllerThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal", type matches "Current", value < 2))
     then
-        Conclusion c = new Conclusion(Conclusion.ThermalControllerLowResistanceFailure);
+        Conclusion c = new Conclusion(Conclusion.ThermalControllerLowResistanceFailure, $count, Conclusion.ReplaceRedundantSystem);
 		insert(c);
 end
 
@@ -892,7 +893,7 @@ rule "Propulsion low Resistance error"
         Observation(description matches Observation.PropulsionThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", value < 2))
     then
-        Conclusion c = new Conclusion(Conclusion.PropulsionLowResistanceFailure);
+        Conclusion c = new Conclusion(Conclusion.PropulsionLowResistanceFailure, $count, Conclusion.ReplaceRedundantSystem);
 		insert(c);
 end
 
@@ -904,7 +905,7 @@ rule "AOCS high Resistance error"
         Observation(description matches Observation.AOCSThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.AOCSHighResistanceFailure);
+        Conclusion c = new Conclusion(Conclusion.AOCSHighResistanceFailure, $count, Conclusion.ReplaceRedundantSystem);
 		insert(c);
 end
 
@@ -914,7 +915,7 @@ rule "Payload high Resistance error"
         Observation(description matches Observation.PayloadThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.PayloadHighResistanceFailure);
+        Conclusion c = new Conclusion(Conclusion.PayloadHighResistanceFailure, $count, Conclusion.ReplaceRedundantSystem);
 		insert(c);
 end
 
@@ -924,7 +925,7 @@ rule "Power high Resistance error"
         Observation(description matches Observation.PowerThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.PowerHighResistanceFailure);
+        Conclusion c = new Conclusion(Conclusion.PowerHighResistanceFailure, $count, Conclusion.ReplaceRedundantSystem);
 		insert(c);
 end
 
@@ -934,7 +935,7 @@ rule "OBC high Resistance error"
         Observation(description matches Observation.OBCThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.OBCHighResistanceFailure);
+        Conclusion c = new Conclusion(Conclusion.OBCHighResistanceFailure, $count, Conclusion.ReplaceRedundantSystem);
 		insert(c);
 end
 
@@ -944,7 +945,7 @@ rule "Communication high Resistance error"
         Observation(description matches Observation.CommunicationThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.CommunicationHighResistanceFailure);
+        Conclusion c = new Conclusion(Conclusion.CommunicationHighResistanceFailure, $count, Conclusion.ReplaceRedundantSystem);
 		insert(c);
 end
 
@@ -954,7 +955,7 @@ rule "Thermal high Resistance error"
         Observation(description matches Observation.ThermalControllerThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.ThermalControllerHighResistanceFailure);
+        Conclusion c = new Conclusion(Conclusion.ThermalControllerHighResistanceFailure, $count, Conclusion.ReplaceRedundantSystem);
 		insert(c);
 end
 
@@ -964,7 +965,7 @@ rule "Propulsion high Resistance error"
         Observation(description matches Observation.PropulsionThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.PropulsionHighResistanceFailure);
+        Conclusion c = new Conclusion(Conclusion.PropulsionHighResistanceFailure, $count, Conclusion.ReplaceRedundantSystem);
 		insert(c);
 end
 
@@ -975,7 +976,7 @@ rule "AOCS rush failure"
         Observation(description matches Observation.AOCSThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.AOCSRushFailure);
+        Conclusion c = new Conclusion(Conclusion.AOCSRushFailure, $count, Conclusion.RushDetected);
 		insert(c);
 end
 
@@ -985,7 +986,7 @@ rule "Payload rush failure"
         Observation(description matches Observation.PayloadThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Payload", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.PayloadRushFailure);
+        Conclusion c = new Conclusion(Conclusion.PayloadRushFailure, $count, Conclusion.RushDetected);
 		insert(c);
 end
 
@@ -995,7 +996,7 @@ rule "Power rush failure"
         Observation(description matches Observation.PowerThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Power", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.PowerRushFailure);
+        Conclusion c = new Conclusion(Conclusion.PowerRushFailure, $count, Conclusion.RushDetected);
 		insert(c);
 end
 
@@ -1005,7 +1006,7 @@ rule "OBC rush failure"
         Observation(description matches Observation.OBCThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "OBC", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.OBCRushFailure);
+        Conclusion c = new Conclusion(Conclusion.OBCRushFailure, $count, Conclusion.RushDetected);
 		insert(c);
 end
 
@@ -1015,7 +1016,7 @@ rule "Communication rush failure"
         Observation(description matches Observation.CommunicationThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Communication", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.CommunicationRushFailure);
+        Conclusion c = new Conclusion(Conclusion.CommunicationRushFailure, $count, Conclusion.RushDetected);
 		insert(c);
 end
 
@@ -1025,7 +1026,7 @@ rule "Thermal rush failure"
         Observation(description matches Observation.ThermalControllerThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.ThermalControllerRushFailure);
+        Conclusion c = new Conclusion(Conclusion.ThermalControllerRushFailure, $count, Conclusion.RushDetected);
 		insert(c);
 end
 
@@ -1035,7 +1036,7 @@ rule "Propulsion rush failure"
         Observation(description matches Observation.PropulsionThermalSubSystemOK)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Current", value > 5))
     then
-        Conclusion c = new Conclusion(Conclusion.PropulsionRushFailure);
+        Conclusion c = new Conclusion(Conclusion.PropulsionRushFailure, $count, Conclusion.RushDetected);
 		insert(c);
 end
 
@@ -1044,14 +1045,14 @@ rule "All Reaction Wheels not On"
     when
         $count : ArrayList(size < 4) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Reaction Wheel", value == 1))
     then
-        Conclusion c = new Conclusion(Conclusion.AllReactionWheelsNotOn);
+        Conclusion c = new Conclusion(Conclusion.AllReactionWheelsNotOn, $count, Conclusion.RushDetected);
 end
 
 rule "All Reaction Wheels not Off"
     when
         $count : ArrayList(size < 4) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Reaction Wheel", value == 0))
     then
-        Conclusion c = new Conclusion(Conclusion.AllReactionWheelsNotOn);
+        Conclusion c = new Conclusion(Conclusion.AllReactionWheelsNotOn, $count, Conclusion.RushDetected);
 end
 
 
@@ -1075,7 +1076,7 @@ rule "Thrusters not Off during Reaction Wheels Operation"
         Observation(description matches Observation.ReactionWheelsOn)
         $count : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Thruster", value == 1))
     then
-        Conclusion c = new Conclusion(Conclusion.ThrustersNotOff);
+        Conclusion c = new Conclusion(Conclusion.ThrustersNotOff, $count, Conclusion.ThrustersOn);
         insert(c);
 end
 
@@ -1085,7 +1086,7 @@ rule "Reaction Wheels not Off during Thrusters Operation"
         Observation(description matches Observation.ReactionWheelsOff)
         $count : ArrayList(size == 0) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Thruster", value == 1))
     then
-        Conclusion c = new Conclusion(Conclusion.ThrustersNotOff);
+        Conclusion c = new Conclusion(Conclusion.ThrustersNotOff, $count, Conclusion.WheelsOn);
         insert(c);
 end
 
@@ -1094,7 +1095,7 @@ rule "GPS and Star Tracker can't Operate same time"
         $count : ArrayList(size  > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "GPS", value == 1))
         $count1 : ArrayList(size  > 1) from collect($sensor: Sensor(subSystem matches "AOCS", type matches "Star Tracker", value == 1))
     then
-        Conclusion c = new Conclusion(Conclusion.GPSAndStarTrackSimultaneous);
+        Conclusion c = new Conclusion(Conclusion.GPSAndStarTrackSimultaneous, $count, Conclusion.STGPSOn);
         insert(c);
 end
 
@@ -1115,6 +1116,6 @@ rule "Power Module Failure"
         $count5 : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Thermal", type matches "Voltage", value < 27))
         $count6 : ArrayList(size > 1) from collect($sensor: Sensor(subSystem matches "Propulsion", type matches "Voltage", value < 27))
     then
-        Conclusion c = new Conclusion(Conclusion.PowerModuleEnergyGenerationFail);
+        Conclusion c = new Conclusion(Conclusion.PowerModuleEnergyGenerationFail, $count, Conclusion.PowerModuleFullFailure);
         insert(c);
 end

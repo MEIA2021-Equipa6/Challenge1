@@ -18,7 +18,9 @@ public class How {
         Justification j = justifications.get(factNumber);
         if (j != null) { // justification for Fact factNumber was found
             sb.append(getIndentation(level));
-            sb.append(j.getConclusion()).append(" was obtained by rule ").append(j.getRuleName()).append(" because");
+            sb.append(j.getConclusion()).append(" was obtained because");
+            sb.append('\n');
+            sb.append(j.getConclusion().getList());
             sb.append('\n');
             int l = level + 1;
             for (Fact f : j.getLhs()) {
@@ -30,6 +32,7 @@ public class How {
                     sb.append(s);
                 }
             }
+            sb.append("Suggested Correction: ").append(j.getConclusion().getCorrection());
         }
 
         return sb.toString();
