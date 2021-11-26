@@ -1,3 +1,5 @@
+=== Different Sequence of commands used to run the code in VS Code ===
+
 cd 'Prolog'; & 'C:\\Program Files\\swipl\\bin\\swipl.exe'
 
 ['inference_engine.pl'].
@@ -19,7 +21,6 @@ load_kb.
 'satellite_sensor_data.txt'.
 spy(conclude).
 start_engine.
-
 
 
 
