@@ -214,9 +214,9 @@ rule 54
 
 
 
-fact(1,aocs_thermal(main, 20)).
-fact(2,aocs_thermal(red1, 20)).
-fact(3,aocs_thermal(red2, 20)).
+fact(1,aocs_thermal(main, 35)).
+fact(2,aocs_thermal(red1, 35)).
+fact(3,aocs_thermal(red2, 35)).
 fact(4,aocs_switch(main, 0)).
 fact(5,aocs_tension(main, 28)).
 fact(6,aocs_tension(red1, 28)).
@@ -225,22 +225,22 @@ fact(8,aocs_current(main, 0.1)).
 fact(9,aocs_current(red1, 0.1)).
 fact(10,aocs_current(red2, 0.1)).
 fact(11,aocs_gyroscope(main, detumbling)).
-fact(12,aocs_gps(main, 0)).
-fact(13,aocs_gps(red1, 0)).
+fact(12,aocs_gps(main, 1)).
+fact(13,aocs_gps(red1, 1)).
 fact(14,aocs_star_tracker(main, 1)).
 fact(15,aocs_star_tracker(red1, 0)).
 fact(16,aocs_thruster(t1,1)).
 fact(17,aocs_thruster(t2,1)).
 fact(18,aocs_thruster(t3,1)).
 fact(19,aocs_thruster(t4,1)).
-fact(20,aocs_reaction_wheel(rw1,0)).
-fact(21,aocs_reaction_wheel(rw2,0)).
-fact(22,aocs_reaction_wheel(rw3,0)).
-fact(23,aocs_reaction_wheel(rw4,0)).
+fact(20,aocs_reaction_wheel(rw1,1)).
+fact(21,aocs_reaction_wheel(rw2,1)).
+fact(22,aocs_reaction_wheel(rw3,1)).
+fact(23,aocs_reaction_wheel(rw4,1)).
 fact(24,power_current_output(main, 11)).
 fact(25,power_current_input(main, 10)).
 fact(26,power_battery_status(main, 9)).
-fact(27,power_thermal(main, 49)).
+fact(27,power_thermal(main, 55)).
 fact(28,power_switch(main, 1)).
 fact(29,power_tension(main, 28)).
 fact(30,power_current(main, 2)).
@@ -251,7 +251,7 @@ fact(34,payload_current(main, 0)).
 fact(35,communication_thermal(main, 20)).
 fact(36,communication_switch(main, 1)).
 fact(37,communication_tension(main, 28)).
-fact(38,communication_current(main, 2)).
+fact(38,communication_current(main, 5)).
 fact(39,obc_thermal(main, 15)).
 fact(40,obc_switch(main, 1)).
 fact(41,obc_tension(main, 28)).
