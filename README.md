@@ -1,5 +1,5 @@
 # Challenge1
-Code for challenge #1, an expert system on ... . 
+Code for challenge #1, an expert system that performs the diagnosis of failures in a satellite. 
 This repo includes both the code for the ENGCIA project in Drools and the PPROGIA project in Prolog.
 
 ## Usage of PROLOG project
